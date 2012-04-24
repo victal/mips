@@ -9,6 +9,7 @@ import mips.ALU;
 import registradores.Reg;
 
 import instrucoes.Instrucao;
+import instrucoes.InstrucaoNop;
 
 public class IDCircuit extends Circuit {
 
@@ -19,8 +20,11 @@ public class IDCircuit extends Circuit {
 	@Override
 	public void run() {
 		updateBlockState();
-		if (this.isBlocked())
+		if (this.isBlocked()){
+			//if blocked, coloca um NOP nos próximos estados;
+			this.getControl().put("ALUOp", new InstrucaoNop("0000000000000000").getALUOp());
 			return;
+		}
 		
 		List<Integer> readRegsValues = this.getRegsValues();
 		Integer imm = this.getImmediateData();

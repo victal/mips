@@ -30,39 +30,53 @@ public class MIPS {
 	private Latch latchIDEX;
 	private Latch latchIFID;
 
+
+	public void runstep(){
+
+		this.WBCircuit.run();
+		this.MEMCircuit.run();
+		this.EXCircuit.run();
+		if(!this.EXCircuit.isWorking()){
+			this.IDCircuit.run();
+			if(!this.IDCircuit.isBlocked())
+			this.IFCircuit.run();
+		}
+	}
+
+	}
 	public void setControl(Controle control) {
 		this.control = control;
-		
+
 	}
 
 	public void setMemData(MemoriaDados memData) {
 		this.memData = memData;
-		
+
 	}
 
 	public void setMemInstruction(MemoriaInstrucao memInstruction) {
 		this.memInstruction = memInstruction;
-		
+
 	}
 
 	public void setRegs(List<Reg> regs) {
 		this.regs = regs;
-		
+
 	}
 
 	public void setIFCircuit(IFCircuit circuit) {
 		this.IFCircuit = circuit;
-		
+
 	}
 
 	public void setIDCircuit(IDCircuit circuit) {
 		this.IDCircuit = circuit;
-		
+
 	}
 
 	public void setEXCircuit(EXCircuit circuit) {
 		this.EXCircuit = circuit;
-		
+
 	}
 
 	public void setMEMCircuit(MEMCircuit circuit) {
@@ -70,7 +84,7 @@ public class MIPS {
 	}
 
 	public void setWBCircuit(WBCircuit circuit) {
-		this.WBCircuit = circuit;		
+		this.WBCircuit = circuit;
 	}
 
 	public Controle getControl() {
@@ -113,7 +127,7 @@ public class MIPS {
 		this.latchIFID = latch;
 	}
 
-	
+
 
 }
 

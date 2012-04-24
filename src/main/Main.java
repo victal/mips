@@ -1,7 +1,9 @@
 package main;
 
-import instrucoes.Instrucao;
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +17,8 @@ public class Main {
 
 
 	public static void main(String[] args) {
-		
-		List<String> instrucoes = lerInstrucoes(); 
+		File f = new File("teste.mips");
+		List<String> instrucoes = lerInstrucoes(f); 
 		MemoriaInstrucao memInstruction = MemBuilder.buildMemInstruction(instrucoes);
 
 		MemoriaDados memData = new MemoriaDados();
@@ -29,9 +31,19 @@ public class Main {
 
 	
 	
-	private static List<String> lerInstrucoes() {
-		// TODO : LER ALGUM ARQUIVO E PREENCHER UMA LISTA DE STRINGS COM AS INSTRUCOES EM BINARIO
-		return null;
+	private static List<String> lerInstrucoes(File f) {
+		List<String> res = new ArrayList<String>();
+		try {
+			BufferedReader buffer = new  BufferedReader(new FileReader(f));
+			String line;
+			while((line=buffer.readLine())!=null){
+				res.add(line.split(";")[0].trim());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return res;
+
 	}
 
 	
