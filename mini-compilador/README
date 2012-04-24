@@ -1,0 +1,42 @@
+MIPS Compilador
+===============
+
+Recebe um arquivo com várias instrucões em formato mnemonico e
+retorna um outro arquivo com estas instrucoes em formato binário (32bits),
+segundo instrucoes de CES-25.
+
+
+Suporte
+=======
+
+Atualmente funciona com as instrucoes:
+    BLE
+    ADD
+    ADDI
+    LI
+    MUL
+    LW
+    SW
+    NOP
+
+Caso for adicionar mais instrucoes, faça testes antes por favor.
+
+
+Uso
+===
+
+python mips_compilador.py ARQUIVO_ENTRADA ARQUIVO_SAIDA
+
+    ARQUIVO_SAIDA é opcional. Será usado out.dat caso nenhum seja fornecido.
+
+
+Exemplo
+=======
+
+Um arquivo test.dat está anexo.
+
+Compile ele com o seguinte comando:
+
+    python mips_compilador.py test.dat saida.dat
+
+E veja o saida.dat
