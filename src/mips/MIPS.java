@@ -43,7 +43,7 @@ public class MIPS {
 		}
 	}
 
-	}
+
 	public void setControl(Controle control) {
 		this.control = control;
 
