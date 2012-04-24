@@ -26,7 +26,7 @@ public class EXCircuit extends Circuit {
 		} else {
 			runMulOpInTwoClocks();
 			if(workingState){
-				InstrucaoNop nop = new InstrucaoNop("0000000000000000");
+				InstrucaoNop nop = new InstrucaoNop("00000000000000000000000000000000");
 				this.putInOutputBus("instrucao", nop);
 			}
 			else

@@ -22,7 +22,7 @@ public class IDCircuit extends Circuit {
 		updateBlockState();
 		if (this.isBlocked()){
 			//if blocked, coloca um NOP nos próximos estados;
-			InstrucaoNop nop = new InstrucaoNop("0000000000000000");
+			InstrucaoNop nop = new InstrucaoNop("00000000000000000000000000000000");
 			this.putInOutputBus("instrucao", nop);
 			this.getControl().put("ALUOp", nop.getALUOp());
 			return;
