@@ -1,5 +1,6 @@
 package circuitos;
 
+import instrucoes.InstrucaoNop;
 import mips.ALU;
 
 public class EXCircuit extends Circuit {
@@ -20,10 +21,16 @@ public class EXCircuit extends Circuit {
 				runOrdinaryOp();
 
 			copyPasteRT();
-			
+			this.putInOutputBus("instrucao", this.getFromInputBus("instrucao"));
 			
 		} else {
 			runMulOpInTwoClocks();
+			if(workingState){
+				InstrucaoNop nop = new InstrucaoNop("0000000000000000");
+				this.putInOutputBus("instrucao", nop);
+			}
+			else
+				this.putInOutputBus("instrucao", this.getFromInputBus("instrucao"));
 		}
 		
 	}

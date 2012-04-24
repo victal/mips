@@ -27,7 +27,7 @@ public class WBCircuit extends Circuit{
 		if (!this.getControl().get("MemToReg").equals(0)) {
 			return (Integer) this.getFromInputBus("memdata");
 		}
-		return (Integer) this.getFromInputBus("uladata");
+		return (Integer) this.getFromInputBus("aludata");
 	}
 
 	

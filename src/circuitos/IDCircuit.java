@@ -22,7 +22,9 @@ public class IDCircuit extends Circuit {
 		updateBlockState();
 		if (this.isBlocked()){
 			//if blocked, coloca um NOP nos próximos estados;
-			this.getControl().put("ALUOp", new InstrucaoNop("0000000000000000").getALUOp());
+			InstrucaoNop nop = new InstrucaoNop("0000000000000000");
+			this.putInOutputBus("instrucao", nop);
+			this.getControl().put("ALUOp", nop.getALUOp());
 			return;
 		}
 		
@@ -39,7 +41,7 @@ public class IDCircuit extends Circuit {
 		this.decodeControlSignals();
 		
 		this.putInOutputBus("pc", this.getFromInputBus("pc"));
-				
+		this.putInOutputBus("instrucao", this.getInstrucao());		
 		this.updateDirtyStateOfWrittenRegs();
 	}
 
@@ -63,9 +65,6 @@ public class IDCircuit extends Circuit {
 	public boolean isBlocked() {
 		return this.blockState;
 	}
-
-	
-
 		
 	
 	private Instrucao getInstrucao() {

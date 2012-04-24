@@ -20,7 +20,7 @@ public class MEMCircuit extends Circuit{
 			Integer value = (Integer) this.getFromInputBus("writedata");
 			this.mem.setValue(position, value);
 		}
-		
+		this.putInOutputBus("instrucao", this.getFromInputBus("instrucao"));
 		this.putInOutputBus("aludata", this.getFromInputBus("address"));
 		
 	}
