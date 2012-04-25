@@ -44,7 +44,7 @@ public class WBCircuitTest {
 	public void deveSaberQueVaiPegarOResuldatoDaULAPraEscreverEmRegistradorQuandoNaoForLoad() {
 		Controle control = criaControleAdd();
 		this.circuit.setControl(control);
-		this.circuit.putInInputBus("uladata", 100);
+		this.circuit.putInInputBus("aludata", 100);
 
 		this.circuit.run();
 		
@@ -55,7 +55,7 @@ public class WBCircuitTest {
 	public void deveColocarOValorFinalNoBusDeSaida() {
 		Controle control = criaControleAdd();
 		this.circuit.setControl(control);
-		this.circuit.putInInputBus("uladata", 100);
+		this.circuit.putInInputBus("aludata", 100);
 
 		this.circuit.run();
 		
@@ -78,7 +78,7 @@ public class WBCircuitTest {
 	public void deveEscreverNoRegistradorCorretoOValorFinal() {
 		Controle control = criaControleAdd();  //add R10, R0, R1
 		this.circuit.setControl(control);
-		this.circuit.putInInputBus("uladata", 100);
+		this.circuit.putInInputBus("aludata", 100);
 
 		this.circuit.run();
 		
