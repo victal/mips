@@ -1,15 +1,12 @@
 package circuitos;
 
+import instrucoes.Instrucao;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import mips.ALU;
-
 import registradores.Reg;
-
-import instrucoes.Instrucao;
-import instrucoes.InstrucaoNop;
 
 public class IDCircuit extends Circuit {
 

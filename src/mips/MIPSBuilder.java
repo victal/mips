@@ -1,15 +1,12 @@
 package mips;
 
-import instrucoes.Instrucao;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import registradores.Reg;
 
 import latches.Latch;
 import memorias.MemoriaDados;
 import memorias.MemoriaInstrucao;
+import registradores.Reg;
 import circuitos.EXCircuit;
 import circuitos.IDCircuit;
 import circuitos.IFCircuit;

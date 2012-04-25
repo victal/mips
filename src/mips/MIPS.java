@@ -1,5 +1,8 @@
 package mips;
 
+import instrucoes.IInstrucao;
+import instrucoes.Instrucao;
+
 import java.util.List;
 
 import circuitos.Circuit;
@@ -31,7 +34,7 @@ public class MIPS {
 	private Latch latchIFID;
 
 	
-	public void run(){
+	public void runStep(){
 		
 		this.WBCircuit.run();
 		this.MEMCircuit.run();
@@ -48,6 +51,23 @@ public class MIPS {
 		}
 	}		
 	
+	public void run(){
+		boolean finished = false;
+		while(!finished){
+			this.runStep();
+			Instrucao nop = new Instrucao(IInstrucao.NOP_CODE);
+			//Run out of instructions;
+			finished = this.IFCircuit.getPC()>=this.memInstruction.getNumberOfInstructions()*4;
+			//Nothing running on WB
+			finished = this.latchMEMWB.getOutput().get("instrucao").equals(nop);
+			//Nothing running on MEM
+			finished = this.latchEXMEM.getOutput().get("instrucao").equals(nop);
+			//Nothing running on EX
+			finished = this.latchIDEX.getOutput().get("instrucao").equals(nop);
+			//Nothing running on ID
+			finished = this.latchIFID.getOutput().get("instrucao").equals(nop);
+		}
+	}
 	public void setControl(Controle control) {
 		this.control = control;
 		
