@@ -78,5 +78,18 @@ public class InstrucaoTest {
 	public void deveConhecerAConstanteDeCodigoParaInstrucaoNOP() {
 		assertEquals("00000000000000000000000000000000", Instrucao.NOP_CODE);
 	}
+	
+	@Test
+	public void deveFazerAComparacaoDeIgualdadePelaStringDeInstrucao() {
+		Instrucao nop1 = new Instrucao("00000000000000000000000000");
+		Instrucao nop2 = new Instrucao("00000000000000000000000000");
+		Instrucao sw = new Instrucao("10101100000010010000000000011000");
+		
+		assertEquals(nop1, nop2);
+		assertTrue(nop1.equals(nop2));
+		assertFalse(nop1.equals(sw));
+		assertFalse(nop2.equals(sw));
+		
+	}
 
 }

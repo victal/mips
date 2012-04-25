@@ -27,6 +27,8 @@ public class Instrucao implements IInstrucao {
 	}
 	
 	
+	
+	
 	private IInstrucao constroiObjetoInstrucao(String className) {
 
 		Object instrucaoObjeto = null;
@@ -140,6 +142,36 @@ public class Instrucao implements IInstrucao {
 
 	public boolean isJump() {
 		return this.instance.isJump();
+	}
+
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((this.instrucao == null) ? 0 : this.instrucao.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Instrucao other = (Instrucao) obj;
+		if (this.instrucao == null) {
+			if (other.instrucao != null)
+				return false;
+		} else if (!this.instrucao.equals(other.instrucao))
+			return false;
+		return true;
 	}
 
 
