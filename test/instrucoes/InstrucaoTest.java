@@ -73,5 +73,10 @@ public class InstrucaoTest {
 		
 		assertEquals("nop", this.instr.getNome());
 	}
+	
+	@Test
+	public void deveConhecerAConstanteDeCodigoParaInstrucaoNOP() {
+		assertEquals("00000000000000000000000000000000", Instrucao.NOP_CODE);
+	}
 
 }

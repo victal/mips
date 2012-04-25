@@ -1,6 +1,6 @@
 package circuitos;
 
-import instrucoes.InstrucaoNop;
+import instrucoes.Instrucao;
 import mips.ALU;
 
 public class EXCircuit extends Circuit {
@@ -26,7 +26,7 @@ public class EXCircuit extends Circuit {
 		} else {
 			runMulOpInTwoClocks();
 			if(workingState){
-				InstrucaoNop nop = new InstrucaoNop("00000000000000000000000000000000");
+				Instrucao nop = new Instrucao(Instrucao.NOP_CODE);
 				this.putInOutputBus("instrucao", nop);
 			}
 			else

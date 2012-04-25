@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface IInstrucao {
 	
+	public final static String NOP_CODE = "00000000000000000000000000000000";
+	
 	public String getOpcodeArgs();
 
 	public String getOpcode();
