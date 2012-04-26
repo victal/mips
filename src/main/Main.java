@@ -17,15 +17,12 @@ public class Main {
 
 
 	public static void main(String[] args) {
-		File f = new File("teste.mips");
+		File f = new File("/home/guilherme/teste.mips");
 		List<String> instrucoes = lerInstrucoes(f); 
 		MemoriaInstrucao memInstruction = MemBuilder.buildMemInstruction(instrucoes);
-
 		MemoriaDados memData = new MemoriaDados();
-		
 		MIPS mips = MIPSBuilder.build(memInstruction, memData);
-
-		
+		mips.run();
 		
 	}
 
@@ -38,11 +35,13 @@ public class Main {
 			String line;
 			while((line=buffer.readLine())!=null){
 				res.add(line.split(";")[0].trim());
+				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return res;
+		
 
 	}
 

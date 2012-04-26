@@ -2,6 +2,8 @@ package circuitos;
 
 import java.util.List;
 
+import mips.Controle;
+
 import registradores.Reg;
 
 public class WBCircuit extends Circuit{
@@ -12,7 +14,6 @@ public class WBCircuit extends Circuit{
 	public void run() {
 		Integer data = this.getData();
 		this.putInOutputBus("data", data);
-		
 		if (!this.getControl().get("RegWr").equals(0)) {
 			Integer index = (Integer) this.getControl().get("RegWrID");
 			Reg reg = this.regs.get(index);

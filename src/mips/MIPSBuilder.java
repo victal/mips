@@ -1,5 +1,8 @@
 package mips;
 
+import instrucoes.IInstrucao;
+import instrucoes.Instrucao;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,15 +73,42 @@ public class MIPSBuilder {
 	private static void buildCircuits(MIPS mips, MemoriaDados memData, MemoriaInstrucao memInstruction, List<Reg> regs) {
 		buildIFCircuit(mips, memInstruction, new Controle());
 		buildIDCircuit(mips, regs, new Controle());
-		buildEXCircuit(mips, new Controle());
-		buildMEMCircuit(mips, memData, new Controle());
-		buildWBCircuit(mips, regs, new Controle());
+		buildEXCircuit(mips, buildEXControl());
+		buildMEMCircuit(mips, memData, buildMEMControl());
+		buildWBCircuit(mips, regs, buildWBControl());
+	}
+
+	
+
+	private static Controle buildWBControl() {
+		Controle c = new Controle();
+		c.put("RegWr",0);
+		c.put("MemToReg",0);
+		return c;
+	}
+	
+	private static Controle buildMEMControl() {
+		Controle controle = buildWBControl();
+		controle.put("MemRead",0);
+		controle.put("MemWr",0);
+		controle.put("RegWr",0);
+		controle.put("MemToReg",0);
+		return controle;
+	}
+	
+	private static Controle buildEXControl(){
+		Controle c = buildMEMControl();
+		c.put("ALUOp",ALU.NOP_CODE);
+		c.put("Branch",0);
+		c.put("ALUSrc",0);//needed even if it's a Nop
+		return c;
 	}
 
 	private static void buildWBCircuit(MIPS mips, List<Reg> regs, Controle controle) {
 		WBCircuit circuit = new WBCircuit();
 		circuit.setControl(controle);
 		circuit.setMipsRegisters(regs);
+		circuit.putInInputBus("instrucao", new Instrucao(IInstrucao.NOP_CODE));
 		mips.setWBCircuit(circuit);
 	}
 
@@ -86,12 +116,14 @@ public class MIPSBuilder {
 		MEMCircuit circuit = new MEMCircuit();
 		circuit.setMem(memData);		
 		circuit.setControl(controle);
+		circuit.putInInputBus("instrucao", new Instrucao(IInstrucao.NOP_CODE));
 		mips.setMEMCircuit(circuit);
 	}
 
 	private static void buildEXCircuit(MIPS mips, Controle controle) {
 		EXCircuit circuit = new EXCircuit();
 		circuit.setControl(controle);
+		circuit.putInInputBus("instrucao", new Instrucao(IInstrucao.NOP_CODE));
 		mips.setEXCircuit(circuit);
 	}
 
@@ -99,6 +131,7 @@ public class MIPSBuilder {
 		IDCircuit circuit = new IDCircuit();
 		circuit.setMipsRegisters(regs);
 		circuit.setControl(controle);
+		circuit.putInInputBus("instrucao", new Instrucao(IInstrucao.NOP_CODE));
 		mips.setIDCircuit(circuit);
 	}
 

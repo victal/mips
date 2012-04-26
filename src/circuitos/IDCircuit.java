@@ -21,7 +21,7 @@ public class IDCircuit extends Circuit {
 			//if blocked, coloca um NOP nos próximos estados;
 			Instrucao nop = new Instrucao(Instrucao.NOP_CODE);
 			this.putInOutputBus("instrucao", nop);
-			this.getControl().put("ALUOp", nop.getALUOp());
+			this.decodeControlSignals(nop);
 			return;
 		}
 		
@@ -35,7 +35,7 @@ public class IDCircuit extends Circuit {
 		if (imm != null)
 			this.putInOutputBus("imm", imm);
 		
-		this.decodeControlSignals();
+		this.decodeControlSignals(this.getInstrucao());
 		
 		this.putInOutputBus("pc", this.getFromInputBus("pc"));
 		this.putInOutputBus("instrucao", this.getInstrucao());		
@@ -116,9 +116,8 @@ public class IDCircuit extends Circuit {
 
 
 
-	private void decodeControlSignals() {
-		Instrucao instrucao = this.getInstrucao();
-		
+	private void decodeControlSignals(Instrucao instrucao) {
+
 		this.setControlSignal("Branch", instrucao.isBranch());
 		this.setControlSignal("Jump", instrucao.isJump());
 

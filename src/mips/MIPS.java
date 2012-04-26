@@ -54,18 +54,24 @@ public class MIPS {
 	public void run(){
 		boolean finished = false;
 		while(!finished){
+			System.err.println(IFCircuit.getPC()+" "+
+								  IFCircuit.getCurrentInstruction().getNome()+" "+ //por algum motivo essa linha altera o resultado
+								 ((Instrucao)IDCircuit.getFromInputBus("instrucao")).getNome()+" "+
+								 ((Instrucao)EXCircuit.getFromInputBus("instrucao")).getNome()+" "+
+								 ((Instrucao)MEMCircuit.getFromInputBus("instrucao")).getNome()+" "+
+								 ((Instrucao)WBCircuit.getFromInputBus("instrucao")).getNome());
 			this.runStep();
 			Instrucao nop = new Instrucao(IInstrucao.NOP_CODE);
 			//Run out of instructions;
 			finished = this.IFCircuit.getPC()>=this.memInstruction.getNumberOfInstructions()*4;
 			//Nothing running on WB
-			finished = this.latchMEMWB.getOutput().get("instrucao").equals(nop);
+			finished = finished && ((Instrucao)WBCircuit.getFromInputBus("instrucao")).equals(nop);
 			//Nothing running on MEM
-			finished = this.latchEXMEM.getOutput().get("instrucao").equals(nop);
+			finished = finished && ((Instrucao)MEMCircuit.getFromInputBus("instrucao")).equals(nop);
 			//Nothing running on EX
-			finished = this.latchIDEX.getOutput().get("instrucao").equals(nop);
+			finished = finished && ((Instrucao)EXCircuit.getFromInputBus("instrucao")).equals(nop);
 			//Nothing running on ID
-			finished = this.latchIFID.getOutput().get("instrucao").equals(nop);
+			finished = finished && ((Instrucao)IDCircuit.getFromInputBus("instrucao")).equals(nop);
 		}
 	}
 	public void setControl(Controle control) {

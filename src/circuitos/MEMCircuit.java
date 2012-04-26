@@ -1,6 +1,7 @@
 package circuitos;
 
 import memorias.MemoriaDados;
+import mips.Controle;
 
 public class MEMCircuit extends Circuit{
 
@@ -8,7 +9,6 @@ public class MEMCircuit extends Circuit{
 
 	@Override
 	public void run() {
-		
 		if (isMemoryRead()) {
 			Integer position = (Integer) this.getFromInputBus("address");
 			Integer value = this.mem.getValue(position);

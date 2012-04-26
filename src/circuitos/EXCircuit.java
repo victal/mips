@@ -12,7 +12,7 @@ public class EXCircuit extends Circuit {
 	@Override
 	public void run() {
 		Integer op = (Integer) this.getControl().get("ALUOp");
-		
+			
 		if (!ALU.isMul(op)) {
 
 			if (this.isBranch())
@@ -51,6 +51,7 @@ public class EXCircuit extends Circuit {
 	private Integer runOrdinaryOp() {
 		Integer aluResult = this.getALUResult();
 		this.putInOutputBus("result", aluResult);
+		this.putInOutputBus("address", aluResult);
 		return aluResult;
 	}
 

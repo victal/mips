@@ -44,6 +44,7 @@ public class IFCircuit extends Circuit{
 
 	public void run() {
 		Instrucao instrucao = this.fetch();
+		//System.err.println("fetch "+instrucao.getOpcode());
 		this.putInOutputBus("instrucao", instrucao);
 		this.putInOutputBus("pc", this.getPC());
 	}

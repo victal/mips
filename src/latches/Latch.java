@@ -30,7 +30,6 @@ public class Latch {
 			if (this.isOutputConnected())
 				this.outputCircuit.putInInputBus(key, this.input.get(key));
 		}
-
 	}
 
 	private void writeOutputControl() {
