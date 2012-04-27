@@ -17,7 +17,7 @@ public class Main {
 
 
 	public static void main(String[] args) {
-		File f = new File("/home/guilherme/testejump.mips");
+		File f = new File("/home/guilherme/test.mips");
 		List<String> instrucoes = lerInstrucoes(f); 
 		MemoriaInstrucao memInstruction = MemBuilder.buildMemInstruction(instrucoes);
 		MemoriaDados memData = new MemoriaDados();

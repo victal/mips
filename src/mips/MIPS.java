@@ -41,7 +41,7 @@ public class MIPS {
 		if(pcsrc!=null){
 			System.err.println("pcsrc="+pcsrc);
 			if(pcsrc == 1){
-				Integer newpc = (Integer) this.WBCircuit.getFromOutputBus("branchpc");
+				Integer newpc = (Integer) this.WBCircuit.getFromOutputBus("newpc");
 				this.IFCircuit.setNewPC(newpc);
 			}
 			this.IFCircuit.liftJumpblock();

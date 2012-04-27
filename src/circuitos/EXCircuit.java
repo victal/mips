@@ -55,19 +55,19 @@ public class EXCircuit extends Circuit {
 		this.putInOutputBus("result", aluResult);
 		this.putInOutputBus("address", aluResult);
 		this.getControl().put("PCSrc", null);
-		this.putInOutputBus("branchpc",null);
+		this.putInOutputBus("newpc",null);
 		return aluResult;
 	}
 
 	private void runBranch() {
 		Integer aluResult = runOrdinaryOp();
-		this.putInOutputBus("branchpc", this.getBranchPCResult());
+		this.putInOutputBus("newpc", this.getBranchPCResult());
 		this.getControl().put("PCSrc", this.resolveBranchPCControlSignal(aluResult));
 	}
 	
 	private void runJump() {
 		Integer jumpaddr = (Integer) this.getFromInputBus("imm");
-		this.putInOutputBus("branchpc",jumpaddr);
+		this.putInOutputBus("newpc",jumpaddr);
 		this.getControl().put("PCSrc",1);
 	}
 

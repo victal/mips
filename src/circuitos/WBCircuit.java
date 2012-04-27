@@ -24,7 +24,7 @@ public class WBCircuit extends Circuit{
 		}
 		Instrucao i = (Instrucao) getFromInputBus("instrucao");
 		if(i.isBranch()||i.isJump()){
-			this.putInOutputBus("branchpc", this.getFromInputBus("branchpc"));
+			this.putInOutputBus("newpc", this.getFromInputBus("newpc"));
 		}
 		
 
