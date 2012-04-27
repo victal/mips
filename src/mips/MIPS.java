@@ -37,6 +37,15 @@ public class MIPS {
 	public void runStep(){
 		
 		this.WBCircuit.run();
+		Integer pcsrc = (Integer) this.WBCircuit.getControl().get("PCSrc");
+		if(pcsrc!=null){
+			System.err.println("pcsrc="+pcsrc);
+			if(pcsrc == 1){
+				Integer newpc = (Integer) this.WBCircuit.getFromOutputBus("branchpc");
+				this.IFCircuit.setNewPC(newpc);
+			}
+			this.IFCircuit.liftJumpblock();
+		}
 		this.MEMCircuit.run();
 		this.latchMEMWB.sendWritePulse();
 		this.EXCircuit.run();
@@ -54,24 +63,28 @@ public class MIPS {
 	public void run(){
 		boolean finished = false;
 		while(!finished){
+			this.runStep();
 			System.err.println(IFCircuit.getPC()+" "+
-								  IFCircuit.getCurrentInstruction().getNome()+" "+ //por algum motivo essa linha altera o resultado
+			//					  IFCircuit.getCurrentInstruction().getNome()+" "+ //por algum motivo essa linha altera o resultado
 								 ((Instrucao)IDCircuit.getFromInputBus("instrucao")).getNome()+" "+
 								 ((Instrucao)EXCircuit.getFromInputBus("instrucao")).getNome()+" "+
 								 ((Instrucao)MEMCircuit.getFromInputBus("instrucao")).getNome()+" "+
 								 ((Instrucao)WBCircuit.getFromInputBus("instrucao")).getNome());
-			this.runStep();
 			Instrucao nop = new Instrucao(IInstrucao.NOP_CODE);
 			//Run out of instructions;
 			finished = this.IFCircuit.getPC()>=this.memInstruction.getNumberOfInstructions()*4;
 			//Nothing running on WB
-			finished = finished && ((Instrucao)WBCircuit.getFromInputBus("instrucao")).equals(nop);
-			//Nothing running on MEM
-			finished = finished && ((Instrucao)MEMCircuit.getFromInputBus("instrucao")).equals(nop);
+			boolean nowb = finished && ((Instrucao)WBCircuit.getFromInputBus("instrucao")).getNome().equals("nop");
+			//Branch not followed on WB
+			boolean bnf = ((Instrucao)WBCircuit.getFromInputBus("instrucao")).isBranch() &&
+						  (Integer) this.WBCircuit.getControl().get("PCSrc")==0;
+			finished = finished && (bnf||nowb);
+						//Nothing running on MEM
+			finished = finished && ((Instrucao)MEMCircuit.getFromInputBus("instrucao")).getNome().equals("nop");
 			//Nothing running on EX
-			finished = finished && ((Instrucao)EXCircuit.getFromInputBus("instrucao")).equals(nop);
+			finished = finished && ((Instrucao)EXCircuit.getFromInputBus("instrucao")).getNome().equals("nop");
 			//Nothing running on ID
-			finished = finished && ((Instrucao)IDCircuit.getFromInputBus("instrucao")).equals(nop);
+			finished = finished && ((Instrucao)IDCircuit.getFromInputBus("instrucao")).getNome().equals("nop");
 		}
 	}
 	public void setControl(Controle control) {

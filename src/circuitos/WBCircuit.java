@@ -1,5 +1,7 @@
 package circuitos;
 
+import instrucoes.Instrucao;
+
 import java.util.List;
 
 import mips.Controle;
@@ -19,6 +21,10 @@ public class WBCircuit extends Circuit{
 			Reg reg = this.regs.get(index);
 			reg.setValue(data);	
 			reg.unsetDirty();
+		}
+		Instrucao i = (Instrucao) getFromInputBus("instrucao");
+		if(i.isBranch()){
+			this.putInOutputBus("branchpc", this.getFromInputBus("branchpc"));
 		}
 		
 

@@ -52,6 +52,8 @@ public class EXCircuit extends Circuit {
 		Integer aluResult = this.getALUResult();
 		this.putInOutputBus("result", aluResult);
 		this.putInOutputBus("address", aluResult);
+		this.getControl().put("PCSrc", null);
+		this.putInOutputBus("branchpc",null);
 		return aluResult;
 	}
 
@@ -105,7 +107,8 @@ public class EXCircuit extends Circuit {
 	private Integer getBranchPCResult() {
 		if (!this.isBranch())
 			return null;
-		return (Integer) this.getFromInputBus("pc") + 4 * (Integer) this.getFromInputBus("imm");
+		//return (Integer) this.getFromInputBus("pc") + 4 * (Integer) this.getFromInputBus("imm");
+		return (Integer) this.getFromInputBus("imm")+4;
 	}
 
 

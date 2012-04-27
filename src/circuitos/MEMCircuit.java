@@ -1,5 +1,6 @@
 package circuitos;
 
+import instrucoes.Instrucao;
 import memorias.MemoriaDados;
 import mips.Controle;
 
@@ -22,7 +23,14 @@ public class MEMCircuit extends Circuit{
 		}
 		this.putInOutputBus("instrucao", this.getFromInputBus("instrucao"));
 		this.putInOutputBus("aludata", this.getFromInputBus("address"));
-		
+		Instrucao i = (Instrucao) getFromInputBus("instrucao");
+		if(i.isBranch()){
+			this.putInOutputBus("branchpc", this.getFromInputBus("branchpc"));
+		}
+//			if(i.isJump()){
+//				
+//			}
+	
 	}
 
 	private boolean isMemoryWrite() {
