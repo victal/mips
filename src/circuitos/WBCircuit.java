@@ -23,7 +23,7 @@ public class WBCircuit extends Circuit{
 			reg.unsetDirty();
 		}
 		Instrucao i = (Instrucao) getFromInputBus("instrucao");
-		if(i.isBranch()){
+		if(i.isBranch()||i.isJump()){
 			this.putInOutputBus("branchpc", this.getFromInputBus("branchpc"));
 		}
 		

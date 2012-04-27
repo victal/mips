@@ -84,6 +84,7 @@ public class Instrucao implements IInstrucao {
 		instrucaoMapaStringXClasse.put("000000" + "011000", "InstrucaoMul");
 		instrucaoMapaStringXClasse.put("001000", "InstrucaoAddi");
 		instrucaoMapaStringXClasse.put("000111", "InstrucaoBle");
+		instrucaoMapaStringXClasse.put("000010", "InstrucaoJmp");
 		instrucaoMapaStringXClasse.put("100011", "InstrucaoLw");
 		instrucaoMapaStringXClasse.put("101011", "InstrucaoSw");
 		instrucaoMapaStringXClasse.put("000000" + "000000", "InstrucaoNop");

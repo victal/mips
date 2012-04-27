@@ -70,7 +70,6 @@ public class MIPS {
 								 ((Instrucao)EXCircuit.getFromInputBus("instrucao")).getNome()+" "+
 								 ((Instrucao)MEMCircuit.getFromInputBus("instrucao")).getNome()+" "+
 								 ((Instrucao)WBCircuit.getFromInputBus("instrucao")).getNome());
-			Instrucao nop = new Instrucao(IInstrucao.NOP_CODE);
 			//Run out of instructions;
 			finished = this.IFCircuit.getPC()>=this.memInstruction.getNumberOfInstructions()*4;
 			//Nothing running on WB

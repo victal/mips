@@ -17,6 +17,8 @@ public class EXCircuit extends Circuit {
 
 			if (this.isBranch())
 				runBranch();
+			else if(this.isJump())
+				runJump();
 			else
 				runOrdinaryOp();
 
@@ -62,6 +64,13 @@ public class EXCircuit extends Circuit {
 		this.putInOutputBus("branchpc", this.getBranchPCResult());
 		this.getControl().put("PCSrc", this.resolveBranchPCControlSignal(aluResult));
 	}
+	
+	private void runJump() {
+		Integer jumpaddr = (Integer) this.getFromInputBus("imm");
+		this.putInOutputBus("branchpc",jumpaddr);
+		this.getControl().put("PCSrc",1);
+	}
+
 
 
 	private void runMulOpInTwoClocks() {
@@ -102,7 +111,9 @@ public class EXCircuit extends Circuit {
 		return this.getControl().get("Branch").equals(1);
 	}
 
-
+	private boolean isJump() {
+		return this.getControl().get("Jump").equals(1);
+	}
 
 	private Integer getBranchPCResult() {
 		if (!this.isBranch())

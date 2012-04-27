@@ -100,6 +100,7 @@ public class MIPSBuilder {
 		Controle c = buildMEMControl();
 		c.put("ALUOp",ALU.NOP_CODE);
 		c.put("Branch",0);
+		c.put("Jump",0);
 		c.put("ALUSrc",0);//needed even if it's a Nop
 		return c;
 	}
