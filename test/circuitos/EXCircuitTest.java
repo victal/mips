@@ -102,7 +102,7 @@ public class EXCircuitTest {
 			circuit.run();
 			
 			assertEquals(Integer.valueOf(-40), this.circuit.getFromOutputBus("result"));
-			assertEquals(Integer.valueOf(4 + 4 * 120), this.circuit.getFromOutputBus("branchpc"));
+			assertEquals(Integer.valueOf(4 + 4 * 120), this.circuit.getFromOutputBus("newpc"));
 			assertEquals(Integer.valueOf(1), controle.get("PCSrc"));
 		}
 		
