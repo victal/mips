@@ -44,12 +44,23 @@ public class IFCircuitTest {
 	@Test
 	public void deveSaberRecuperarInstrucoesDaMemoria() {
 		Instrucao instrucao = null;
-		int i = 0;
-		do {
+		int edge_pc = this.mem.getNumberOfInstructions() * this.mem.getInstructionSize();
+		for (int i = 0; i < edge_pc; i = i + 4) {
 			instrucao = this.circuit.fetch();
-			assertEquals(instrucao, this.mem.get(i));
-			i += 4;
-		} while (instrucao != null);
+			assertEquals(this.mem.get(i), instrucao);	
+		}
+	}
+	
+	@Test
+	public void deveColocarNOPNoCircuitoSeAcarabamAsInstrucoesDaMem() {
+		//fetch everything
+		int edge_pc = this.mem.getNumberOfInstructions() * this.mem.getInstructionSize();
+		for (int i = 0; i < edge_pc; i = i + 4) {
+			this.circuit.fetch();
+		}
+
+		//one more fetch
+		assertEquals(new Instrucao(Instrucao.NOP_CODE), this.circuit.fetch());
 	}
 	
 	@Test

@@ -5,6 +5,8 @@ import instrucoes.Instrucao;
 import java.util.List;
 
 public class MemoriaInstrucao {
+	
+	private final Integer INSTRUCTION_SIZE = 4;  //4 bytes per instruction
 
 	private List<Instrucao> memoria;
 
@@ -13,12 +15,12 @@ public class MemoriaInstrucao {
 	}
 
 	public Instrucao get(int pc) {
-		if (pc % 4 != 0)
+		if (pc % INSTRUCTION_SIZE != 0)
 			throw new InvalidMemoryAddressException();
 		
 		Instrucao instrucao;
 		try {
-			instrucao = this.memoria.get(pc / 4);
+			instrucao = this.memoria.get(pc / INSTRUCTION_SIZE);
 		} catch (IndexOutOfBoundsException e) {
 			instrucao = null;
 		}
@@ -32,6 +34,10 @@ public class MemoriaInstrucao {
 
 	public int getNumberOfInstructions() {
 		return this.memoria.size();
+	}
+	
+	public Integer getInstructionSize() {
+		return this.INSTRUCTION_SIZE;
 	}
 
 }
