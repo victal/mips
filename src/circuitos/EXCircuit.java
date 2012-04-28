@@ -103,8 +103,7 @@ public class EXCircuit extends Circuit {
 	private void saveReg(Integer res) {
 		Instrucao i = (Instrucao) this.getFromInputBus("instrucao");
 		Integer regwr = i.getRegistradorEscrito();
-		if(i.getNome().equals("lw"))return;
-		if(regwr!=null){
+		if(regwr!=null && !i.getNome().equals("lw")){
 			Reg reg = this.mipsRegs.get(regwr);
 			reg.setValue(res);	
 			reg.unsetDirty();
