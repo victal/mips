@@ -35,7 +35,7 @@ public class MEMCircuit extends Circuit{
 		this.putInOutputBus("instrucao", this.getFromInputBus("instrucao"));
 		this.putInOutputBus("aludata", this.getFromInputBus("address"));
 		Instrucao i = (Instrucao) getFromInputBus("instrucao");
-		if(i.isBranch()||i.isJump()){
+		if(i != null && (i.isBranch()||i.isJump())){
 			this.putInOutputBus("newpc", this.getFromInputBus("newpc"));
 		}
 	}
