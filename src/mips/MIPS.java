@@ -168,7 +168,13 @@ public class MIPS {
 	public void setLatchIFID(Latch latch) {
 		this.latchIFID = latch;
 	}
-
+	public void setBypass(boolean b){
+		this.WBCircuit.setBypass(b);
+		this.MEMCircuit.setBypass(b);
+		this.EXCircuit.setBypass(b);
+		this.IDCircuit.setBypass(b);
+		this.IFCircuit.setBypass(b);
+	}
 	
 
 }

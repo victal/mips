@@ -1,12 +1,16 @@
 package circuitos;
 
 import instrucoes.Instrucao;
+
+import java.util.List;
+
 import mips.ALU;
+import registradores.Reg;
 
 public class EXCircuit extends Circuit {
 
 	private boolean workingState = false;
-
+	private List<Reg> mipsRegs;
 
 
 	@Override
@@ -31,8 +35,10 @@ public class EXCircuit extends Circuit {
 				Instrucao nop = new Instrucao(Instrucao.NOP_CODE);
 				this.putInOutputBus("instrucao", nop);
 			}
-			else
+			else{
 				this.putInOutputBus("instrucao", this.getFromInputBus("instrucao"));
+				Instrucao i = (Instrucao) this.getFromInputBus("instrucao");
+			}
 		}
 		
 	}
@@ -56,6 +62,9 @@ public class EXCircuit extends Circuit {
 		this.putInOutputBus("address", aluResult);
 		this.getControl().put("PCSrc", null);
 		this.putInOutputBus("newpc",null);
+		if(this.getBypass()){
+			this.saveReg(aluResult);
+		}
 		return aluResult;
 	}
 
@@ -80,9 +89,27 @@ public class EXCircuit extends Circuit {
 			return;
 		} else {
 			workingState = false;
-			this.putInOutputBus("result", getALUResult());
+			Integer alures = getALUResult();
+			if(this.getBypass()){
+				this.saveReg(alures);
+			}
+			this.putInOutputBus("result", alures);
 			return;
 		}
+	}
+
+
+
+	private void saveReg(Integer res) {
+		Instrucao i = (Instrucao) this.getFromInputBus("instrucao");
+		Integer regwr = i.getRegistradorEscrito();
+		if(i.getNome().equals("lw"))return;
+		if(regwr!=null){
+			Reg reg = this.mipsRegs.get(regwr);
+			reg.setValue(res);	
+			reg.unsetDirty();
+		}
+		
 	}
 
 
@@ -117,7 +144,7 @@ public class EXCircuit extends Circuit {
 
 	private Integer getBranchPCResult() {
 		if (!this.isBranch())
-			return null;
+			return null;//depende do tipo de branch
 		//return (Integer) this.getFromInputBus("pc") + 4 * (Integer) this.getFromInputBus("imm");
 		return (Integer) this.getFromInputBus("imm")+4;
 	}
@@ -148,6 +175,12 @@ public class EXCircuit extends Circuit {
 
 	public boolean isWorking() {
 		return this.workingState;
+	}
+
+
+
+	public void setRegs(List<Reg> regs) {
+		this.mipsRegs=regs;
 	}
 
 }

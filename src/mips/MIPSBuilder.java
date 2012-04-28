@@ -73,8 +73,8 @@ public class MIPSBuilder {
 	private static void buildCircuits(MIPS mips, MemoriaDados memData, MemoriaInstrucao memInstruction, List<Reg> regs) {
 		buildIFCircuit(mips, memInstruction, new Controle());
 		buildIDCircuit(mips, regs, new Controle());
-		buildEXCircuit(mips, buildEXControl());
-		buildMEMCircuit(mips, memData, buildMEMControl());
+		buildEXCircuit(mips, regs, buildEXControl());
+		buildMEMCircuit(mips, memData, regs, buildMEMControl());
 		buildWBCircuit(mips, regs, buildWBControl());
 	}
 
@@ -113,18 +113,20 @@ public class MIPSBuilder {
 		mips.setWBCircuit(circuit);
 	}
 
-	private static void buildMEMCircuit(MIPS mips, MemoriaDados memData, Controle controle) {
+	private static void buildMEMCircuit(MIPS mips, MemoriaDados memData, List<Reg> regs, Controle controle) {
 		MEMCircuit circuit = new MEMCircuit();
 		circuit.setMem(memData);		
 		circuit.setControl(controle);
+		circuit.setRegs(regs);
 		circuit.putInInputBus("instrucao", new Instrucao(IInstrucao.NOP_CODE));
 		mips.setMEMCircuit(circuit);
 	}
 
-	private static void buildEXCircuit(MIPS mips, Controle controle) {
+	private static void buildEXCircuit(MIPS mips, List<Reg> regs, Controle controle) {
 		EXCircuit circuit = new EXCircuit();
 		circuit.setControl(controle);
 		circuit.putInInputBus("instrucao", new Instrucao(IInstrucao.NOP_CODE));
+		circuit.setRegs(regs);
 		mips.setEXCircuit(circuit);
 	}
 

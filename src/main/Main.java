@@ -22,6 +22,7 @@ public class Main {
 		MemoriaInstrucao memInstruction = MemBuilder.buildMemInstruction(instrucoes);
 		MemoriaDados memData = new MemoriaDados();
 		MIPS mips = MIPSBuilder.build(memInstruction, memData);
+		mips.setBypass(true);
 		mips.run();
 		
 	}

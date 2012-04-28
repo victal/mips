@@ -1,12 +1,16 @@
 package circuitos;
 
 import instrucoes.Instrucao;
+
+import java.util.List;
+
 import memorias.MemoriaDados;
-import mips.Controle;
+import registradores.Reg;
 
 public class MEMCircuit extends Circuit{
 
 	private MemoriaDados mem;
+	private List<Reg> mipsRegs;
 
 	@Override
 	public void run() {
@@ -14,6 +18,13 @@ public class MEMCircuit extends Circuit{
 			Integer position = (Integer) this.getFromInputBus("address");
 			Integer value = this.mem.getValue(position);
 			this.putInOutputBus("memdata", value);
+			if(this.getBypass()){
+				Instrucao i = (Instrucao)this.getFromInputBus("instrucao");
+				Integer re = i.getRegistradorEscrito();
+				Reg reg = this.mipsRegs.get(re);
+				reg.setValue(value);	
+				reg.unsetDirty();
+			}
 		}
 		
 		if( (isMemoryWrite())) {
@@ -53,6 +64,10 @@ public class MEMCircuit extends Circuit{
 			value = super.getFromInputBus("rt"); //pode ter vindo com este nome
 		
 		return value;
+	}
+
+	public void setRegs(List<Reg> regs) {
+		this.mipsRegs=regs;
 	}
 
 }

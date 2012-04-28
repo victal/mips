@@ -10,6 +10,7 @@ public abstract class Circuit {
 	private Bus outputBus = new Bus();
 	private Bus inputBus = new Bus();
 	private Controle control;
+	private boolean bypass = false;
 		
 	public Object getFromOutputBus(String key) {
 		return this.outputBus.get(key);
@@ -45,6 +46,13 @@ public abstract class Circuit {
 
 	public Bus getOutputBus() {
 		return this.outputBus;
+	}
+	
+	public void setBypass(boolean b){
+		this.bypass=b;
+	}
+	public boolean getBypass(){
+		return this.bypass;
 	}
 	
 //	public Set<String> getInputBusKeys() {
