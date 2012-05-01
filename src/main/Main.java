@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
 import memorias.MemBuilder;
 import memorias.MemoriaDados;
@@ -20,6 +23,18 @@ public class Main {
 
 	public static void main(String[] args) {
 		JFileChooser fc = new JFileChooser();
+		fc.setFileFilter(new FileFilter() {
+			
+			@Override
+			public String getDescription() {
+				return "Mips binary files";
+			}
+			
+			@Override
+			public boolean accept(File arg0) {
+				return arg0.getName().matches(".*[.]mips");
+			}
+		});
 		int retval = fc.showOpenDialog(null);
 		File f = new File("/home/guilherme/teste.mips");
 		if(retval==JFileChooser.APPROVE_OPTION){
@@ -30,7 +45,7 @@ public class Main {
 		MemoriaDados memData = new MemoriaDados();
 		MIPS mips = MIPSBuilder.build(memInstruction, memData);
 		new MIPSGui(mips);
-		//mips.run();
+
 		
 	}
 

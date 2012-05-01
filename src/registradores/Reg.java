@@ -8,6 +8,7 @@ public class Reg {
 
 	public Reg(int id) {
 		this.id = id;
+		this.value=0;
 	}
 
 	public void setDirty() {

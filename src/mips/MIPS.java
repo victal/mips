@@ -189,6 +189,10 @@ public class MIPS {
 		this.IDCircuit.setBypass(b);
 		this.IFCircuit.setBypass(b);
 	}
+
+	public List<Reg> getRegs() {
+		return regs;
+	}
 	
 
 }
