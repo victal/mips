@@ -15,7 +15,7 @@ public class WBCircuit extends Circuit{
 	public void run() {
 		Integer data = this.getData();
 		this.putInOutputBus("data", data);
-		if (!this.getControl().get("RegWr").equals(0)) {
+		if (!this.getControl().get("RegWr").equals(0)&&data!=null) {
 			Integer index = (Integer) this.getControl().get("RegWrID");
 			Reg reg = this.regs.get(index);
 			reg.setValue(data);	

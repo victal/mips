@@ -40,10 +40,11 @@ public class Main {
 		}
 		List<String> instrucoes = lerInstrucoes(f);
 		MemoriaInstrucao memInstruction = MemBuilder.buildMemInstruction(instrucoes);
-		MemoriaDados memData = new MemoriaDados();
+		File datamem = new File("resources/datamem.dat");
+		MemoriaDados memData = new MemoriaDados(datamem);
 		MIPS mips = MIPSBuilder.build(memInstruction, memData);
-		//new MIPSGui(mips);
-		mips.run();
+		new MIPSGui(mips);
+		//mips.run();
 		
 	}
 
