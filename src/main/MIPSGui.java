@@ -1,5 +1,7 @@
 package main;
 
+import instrucoes.Instrucao;
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -210,21 +212,21 @@ public class MIPSGui extends JFrame {
 		});
 		this.play.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(mips==null){
-					MIPS mips = Main.createMIPS();
-					setMips(mips);
-					System.err.println(mips==null);
-					runner.resetMips(mips);
+				if(mips==null||mips.isFinished()){
+//					MIPS mips = Main.createMIPS();
+//					setMips(mips);
+//					System.err.println(mips==null);
+//					runner.resetMips(mips);
 				}
 				else runMIPS();
 			}
 		});
 		this.nextClock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(mips==null){
-					MIPS mips = Main.createMIPS();
-					setMips(mips);
-					runner.resetMips(mips);
+				if(mips==null||mips.isFinished()){
+//					MIPS mips = Main.createMIPS();
+//					setMips(mips);
+//					runner.resetMips(mips);
 				}
 				if(!runner.isRunning())
 					runMIPSStep();
@@ -265,13 +267,18 @@ public class MIPSGui extends JFrame {
 		this.instcomp.setText(done.toString());
 		Float ratio = new Float(done)/new Float(numcycles);
 		String ratiostr = ratio.toString();
-		if(ratiostr.length()>4)ratiostr = ratiostr.substring(0,3);
+		if(ratiostr.length()>4)ratiostr = ratiostr.substring(0,4);
 		this.prod.setText(ratiostr);
 		List<Integer> mems = mips.getMEMCircuit().getLastPositions();
 		List<Integer> values = mips.getMEMCircuit().getLastValues();
 		for(int i = 0;i<mems.size();i++){
 			memory[4-i].setText("address: "+mems.get(i)+" value: "+values.get(i));
 		}
+		instructions[0].setText(mips.getIFCircuit().getCurrentInstruction().getInstrucaoMIPS());
+		instructions[1].setText(((Instrucao)mips.getIDCircuit().getFromInputBus("instrucao")).getInstrucaoMIPS());
+		instructions[2].setText(((Instrucao)mips.getEXCircuit().getFromInputBus("instrucao")).getInstrucaoMIPS());
+		instructions[3].setText(((Instrucao)mips.getMEMCircuit().getFromInputBus("instrucao")).getInstrucaoMIPS());
+		instructions[4].setText(((Instrucao)mips.getWBCircuit().getFromInputBus("instrucao")).getInstrucaoMIPS());
 	}
 	public void setMips(MIPS mips){
 		this.mips = mips;

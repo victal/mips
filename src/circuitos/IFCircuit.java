@@ -20,7 +20,6 @@ public class IFCircuit extends Circuit{
 
 	public Instrucao fetch() {
 		Instrucao instrucao = this.getCurrentInstruction();
-		if(instrucao==null)instrucao = new Instrucao(IInstrucao.NOP_CODE);
 		this.incrementPC();
 		return instrucao;
 	}
@@ -36,7 +35,9 @@ public class IFCircuit extends Circuit{
 	}
 
 	public Instrucao getCurrentInstruction() {
-		return this.mem.get(this.getPC());
+		Instrucao i =  this.mem.get(this.getPC());
+		if(i==null) i= new Instrucao(IInstrucao.NOP_CODE);
+		return i;
 	}
 
 	public MemoriaInstrucao getDefaultMem() {

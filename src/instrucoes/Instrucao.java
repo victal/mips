@@ -179,4 +179,12 @@ public class Instrucao implements IInstrucao {
 
 
 
+
+	@Override
+	public String getInstrucaoMIPS() {
+		return this.instance.getInstrucaoMIPS();
+	}
+
+
+
 }

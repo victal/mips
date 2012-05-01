@@ -27,4 +27,10 @@ public class InstrucaoMul extends InstrucaoSuperFormatR implements IInstrucao {
 	public String getALUOp() {
 		return "mul";
 	}
+	@Override
+	public String getInstrucaoMIPS() {
+		String i = getNome().toUpperCase()+" R"+getRegistradorEscrito()
+					+",R"+Integer.valueOf(getRs(),2)+",R"+Integer.valueOf(getRt(),2);
+		return i;
+	}
 }

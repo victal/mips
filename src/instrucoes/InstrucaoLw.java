@@ -27,4 +27,11 @@ public class InstrucaoLw extends InstrucaoSuperFormatI  implements IInstrucao {
 		return "add";
 	}
 
+	@Override
+	public String getInstrucaoMIPS() {
+		String i = getNome().toUpperCase()
+				+" R"+Integer.valueOf(getRt(),2)+",("+getDadoImediato()+")R"+Integer.valueOf(getRs(),2);
+		return i;
+	}
+
 }

@@ -33,4 +33,8 @@ public class InstrucaoNop extends InstrucaoSuperFormatR implements IInstrucao {
 		return "nop";
 	}
 
+	@Override
+	public String getInstrucaoMIPS(){
+		return getNome().toUpperCase();
+	}
 }

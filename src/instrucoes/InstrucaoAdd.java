@@ -28,6 +28,12 @@ public class InstrucaoAdd extends InstrucaoSuperFormatR implements IInstrucao {
 	public String getALUOp() {
 		return "add";
 	}
+
+	public String getInstrucaoMIPS() {
+		String i = getNome().toUpperCase()+" R"+getRegistradorEscrito()
+					+",R"+Integer.valueOf(getRs(),2)+",R"+Integer.valueOf(getRt(),2);
+		return i;
+	}
 	
 	
 	

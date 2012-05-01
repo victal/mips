@@ -23,5 +23,7 @@ public interface IInstrucao {
 	public boolean isBranch();
 
 	public boolean isJump();
+	
+	public String getInstrucaoMIPS();
 
 }

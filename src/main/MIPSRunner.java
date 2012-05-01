@@ -30,7 +30,7 @@ public class MIPSRunner extends SwingWorker<Object, Void> {
 			runMIPSStep();
 		}
 		running=false;
-		if(mips.isFinished())gui.setMips(null);
+		//if(mips.isFinished())gui.setMips(null);
 	}
 	
 	@Override

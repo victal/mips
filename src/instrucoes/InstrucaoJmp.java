@@ -34,6 +34,9 @@ public class InstrucaoJmp extends InstrucaoSuperFormatJ  implements IInstrucao {
 		return super.getAddress();
 	}
 
+	public String getInstrucaoMIPS(){
+		return getNome().toUpperCase()+" "+getDadoImediato();
+	}
 	
 	
 

@@ -32,6 +32,13 @@ public class InstrucaoBeq extends InstrucaoSuperFormatI  implements IInstrucao {
 		return "sub";
 	}
 
+	@Override
+	public String getInstrucaoMIPS() {
+		String i = getNome().toUpperCase()+" R"+Integer.valueOf(getRs(),2)+",R"+Integer.valueOf(getRt(),2)+","+getDadoImediato();
+		return i;
+	}
+
+	
 	
 	
 
