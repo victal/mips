@@ -56,21 +56,15 @@ public class MIPS {
 				this.latchIFID.sendWritePulse();
 			}
 		}
-		System.err.println(IFCircuit.getPC()+" "+
-	//					  IFCircuit.getCurrentInstruction().getNome()+" "+ //por algum motivo essa linha altera o resultado
-						 ((Instrucao)IDCircuit.getFromInputBus("instrucao")).getNome()+" "+
-						 ((Instrucao)EXCircuit.getFromInputBus("instrucao")).getNome()+" "+
-						 ((Instrucao)MEMCircuit.getFromInputBus("instrucao")).getNome()+" "+
-						 ((Instrucao)WBCircuit.getFromInputBus("instrucao")).getNome());
+//		System.err.println(IFCircuit.getPC()+" "+
+//	//					  IFCircuit.getCurrentInstruction().getNome()+" "+ //por algum motivo essa linha altera o resultado
+//						 ((Instrucao)IDCircuit.getFromInputBus("instrucao")).getNome()+" "+
+//						 ((Instrucao)EXCircuit.getFromInputBus("instrucao")).getNome()+" "+
+//						 ((Instrucao)MEMCircuit.getFromInputBus("instrucao")).getNome()+" "+
+//						 ((Instrucao)WBCircuit.getFromInputBus("instrucao")).getNome());
 		this.numcycles++;		
 	}		
 	
-	public void run(){
-		while(!isFinished()&&!isStopped()){
-			this.runStep();
-		}
-			
-	}
 	public Integer getCycles(){
 		return numcycles;
 	}

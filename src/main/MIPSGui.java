@@ -26,6 +26,7 @@ public class MIPSGui extends JFrame {
 	private JTextField[] regs= new JTextField[32];
 	private JButton play = new JButton();
 	private JButton nextClock = new JButton();
+	private JButton pause = new JButton();
 	private JLabel memories = new JLabel("Last Used Memories");
 	private JTextField[] memory = new JTextField[5];
 	private JLabel clock = new JLabel("Clock");
@@ -72,6 +73,7 @@ public class MIPSGui extends JFrame {
 		clkfield.setEditable(false);
 		play.setIcon(new ImageIcon(MIPSGui.class.getResource("/small/Play16.gif")));
 		nextClock.setIcon(new ImageIcon(MIPSGui.class.getResource("/small/StepForward16.gif")));
+		pause.setIcon(new ImageIcon(MIPSGui.class.getResource("/small/Pause16.gif")));
 		addActionListeners();
 		JPanel rightSide = rightSideLayout();
 		JPanel instpanel = instLayout();
@@ -145,13 +147,15 @@ public class MIPSGui extends JFrame {
 		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(play)
-						.addComponent(nextClock))
-						.addComponent(bypass));
+						.addComponent(nextClock)
+						.addComponent(pause))
+				.addComponent(bypass));
 		layout.setVerticalGroup(layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 						.addComponent(play)
-						.addComponent(nextClock))
-						.addComponent(bypass));
+						.addComponent(nextClock)
+						.addComponent(pause))
+				.addComponent(bypass));
 		return panel;
 	}
 
@@ -170,21 +174,30 @@ public class MIPSGui extends JFrame {
 		});
 		this.nextClock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!mips.isFinished()&&!mips.isStopped())
+				if(!mips.isFinished())
 					runMIPSStep();
+			}
+		});
+		this.pause.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				pauseMIPS();
 			}
 		});
 	}
 
 	protected void runMIPSStep() {
-		this.mips.runStep();
-		updateInfos();
+		runner.runMIPSStep();
 	}
 	
 	
 	
 	protected void runMIPS() {
 		runner.setRun(true);
+		if(mips.isStopped())
+			mips.resume();
+	}
+	protected void pauseMIPS() {
+		mips.stop();
 	}
 
 	public void updateInfos() {
@@ -192,7 +205,7 @@ public class MIPSGui extends JFrame {
 		for(int i =0;i<32 && regs.get(i)!=null;i++){
 			this.regs[i].setText(regs.get(i).getValue().toString());
 		}
-		Integer pc = mips.getIFCircuit().getPC()/4;
+		Integer pc = mips.getIFCircuit().getPC();
 		this.pc.setText(pc.toString());
 		Integer numcycles = mips.getCycles();
 		clkfield.setText(numcycles.toString());
