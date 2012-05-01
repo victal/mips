@@ -27,6 +27,10 @@ public class MIPSGui extends JFrame {
 	private JTextField[] memory = new JTextField[5];
 	private JLabel pclabel = new JLabel("PC");
 	private JTextField pc = new JTextField("0"); 
+	private JLabel instcomplabel = new JLabel("Instruções completadas");
+	private JTextField instcomp = new JTextField("0");
+	private JLabel prodlabel = new JLabel("Produtividade");
+	private JTextField prod = new JTextField("?");
 	private JCheckBox bypass = new JCheckBox("Bypass");
 	private JLabel[] phaseslabels = new JLabel[5];
 	private JTextField[] instructions = new JTextField[5];
@@ -56,6 +60,8 @@ public class MIPSGui extends JFrame {
 		phaseslabels[3] = new JLabel("MEM");
 		phaseslabels[4] = new JLabel("WB");
 		pc.setEditable(false);
+		prod.setEditable(false);
+		instcomp.setEditable(false);
 		play.setIcon(new ImageIcon(MIPSGui.class.getResource("/small/Play16.gif")));
 		nextClock.setIcon(new ImageIcon(MIPSGui.class.getResource("/small/StepForward16.gif")));
 		addActionListeners();
@@ -78,9 +84,13 @@ public class MIPSGui extends JFrame {
 	}
 
 	private JPanel infoLayout() {
-		JPanel panel = new JPanel(new GridLayout(1,2));
+		JPanel panel = new JPanel(new GridLayout(3,2));
 		panel.add(pclabel);
 		panel.add(pc);
+		panel.add(instcomplabel);
+		panel.add(instcomp);
+		panel.add(prodlabel);
+		panel.add(prod);
 		return panel;
 	}
 
@@ -156,10 +166,15 @@ public class MIPSGui extends JFrame {
 	private void updateInfos() {
 		List<Reg> regs = mips.getRegs();
 		for(int i =0;i<32 && regs.get(i)!=null;i++){
-			System.err.println(i+" "+regs.get(i).getValue());
 			this.regs[i].setText(regs.get(i).getValue().toString());
 		}
-		
+		Integer pc = mips.getIFCircuit().getPC()/4;
+		this.pc.setText(pc.toString());
+		int numcycles = mips.getCycles();
+		Integer done = mips.getWBCircuit().countCompleteInstructions();
+		this.instcomp.setText(done.toString());
+		Float ratio = new Float(done)/new Float(numcycles);
+		this.prod.setText(ratio.toString());
 	}
 
 

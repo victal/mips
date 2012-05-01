@@ -34,7 +34,6 @@ public class MemoriaDados {
 				mem.add(y0,y);
 				x0++;
 				y0++;
-				System.err.println(x+" "+y);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

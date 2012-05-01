@@ -15,7 +15,7 @@ import circuitos.MEMCircuit;
 import circuitos.WBCircuit;
 
 public class MIPS {
-
+	private int numcycles=0;
 	private Controle control;
 	private MemoriaDados memData;
 	private MemoriaInstrucao memInstruction;
@@ -62,7 +62,7 @@ public class MIPS {
 						 ((Instrucao)EXCircuit.getFromInputBus("instrucao")).getNome()+" "+
 						 ((Instrucao)MEMCircuit.getFromInputBus("instrucao")).getNome()+" "+
 						 ((Instrucao)WBCircuit.getFromInputBus("instrucao")).getNome());
-				
+		this.numcycles++;		
 	}		
 	
 	public void run(){
@@ -70,6 +70,9 @@ public class MIPS {
 			this.runStep();
 		}
 			
+	}
+	public Integer getCycles(){
+		return numcycles;
 	}
 	public boolean isStopped() {
 		return paused;
