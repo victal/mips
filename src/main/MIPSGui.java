@@ -3,6 +3,7 @@ package main;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.swing.GroupLayout;
@@ -13,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 import mips.MIPS;
 import registradores.Reg;
@@ -37,10 +40,12 @@ public class MIPSGui extends JFrame {
 	private JLabel[] phaseslabels = new JLabel[5];
 	private JTextField[] instructions = new JTextField[5];
 	private JLabel piclabel;
-	
+	private MIPSRunner runner;
 	
 	public MIPSGui(MIPS mips){
 		super("MIPSim");
+		runner = new MIPSRunner(this,mips);
+		runner.execute();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1024, 768);
 		setLayout(new GridLayout(1, 2));
@@ -175,12 +180,14 @@ public class MIPSGui extends JFrame {
 		this.mips.runStep();
 		updateInfos();
 	}
+	
+	
+	
 	protected void runMIPS() {
-		while(!mips.isFinished()&&!mips.isStopped())
-			runMIPSStep();
+		runner.setRun(true);
 	}
 
-	private void updateInfos() {
+	public void updateInfos() {
 		List<Reg> regs = mips.getRegs();
 		for(int i =0;i<32 && regs.get(i)!=null;i++){
 			this.regs[i].setText(regs.get(i).getValue().toString());

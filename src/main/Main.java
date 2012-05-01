@@ -44,13 +44,7 @@ public class Main {
 		File datamem = new File("resources/datamem.dat");
 		MemoriaDados memData = new MemoriaDados(datamem);
 		final MIPS mips = MIPSBuilder.build(memInstruction, memData);
-		SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				new MIPSGui(mips);
-			}
-		});
+		new MIPSGui(mips);
 		//mips.run();
 		
 	}
