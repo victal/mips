@@ -32,6 +32,7 @@ public class MIPS {
 	private Latch latchEXMEM;
 	private Latch latchIDEX;
 	private Latch latchIFID;
+	private boolean paused = false;
 
 	
 	public void runStep(){
@@ -62,7 +63,7 @@ public class MIPS {
 	
 	public void run(){
 		boolean finished = false;
-		while(!finished){
+		while(isFinished()||isStopped()){
 			this.runStep();
 			System.err.println(IFCircuit.getPC()+" "+
 			//					  IFCircuit.getCurrentInstruction().getNome()+" "+ //por algum motivo essa linha altera o resultado
@@ -71,20 +72,33 @@ public class MIPS {
 								 ((Instrucao)MEMCircuit.getFromInputBus("instrucao")).getNome()+" "+
 								 ((Instrucao)WBCircuit.getFromInputBus("instrucao")).getNome());
 			//Run out of instructions;
-			finished = this.IFCircuit.getPC()>=this.memInstruction.getNumberOfInstructions()*4;
-			//Nothing running on WB
-			boolean nowb = finished && ((Instrucao)WBCircuit.getFromInputBus("instrucao")).getNome().equals("nop");
-			//Branch not followed on WB
-			boolean bnf = ((Instrucao)WBCircuit.getFromInputBus("instrucao")).isBranch() &&
-						  (Integer) this.WBCircuit.getControl().get("PCSrc")==0;
-			finished = finished && (bnf||nowb);
-						//Nothing running on MEM
-			finished = finished && ((Instrucao)MEMCircuit.getFromInputBus("instrucao")).getNome().equals("nop");
-			//Nothing running on EX
-			finished = finished && ((Instrucao)EXCircuit.getFromInputBus("instrucao")).getNome().equals("nop");
-			//Nothing running on ID
-			finished = finished && ((Instrucao)IDCircuit.getFromInputBus("instrucao")).getNome().equals("nop");
-		}
+			}
+	}
+	public boolean isStopped() {
+		return paused;
+	}
+	public void stop(){
+		this.paused=true;
+	}
+	public void resume(){
+		this.paused=false;
+	}
+	public boolean isFinished(){
+		boolean finished = false;
+		finished = this.IFCircuit.getPC()>=this.memInstruction.getNumberOfInstructions()*4;
+		//Nothing running on WB
+		boolean nowb = finished && ((Instrucao)WBCircuit.getFromInputBus("instrucao")).getNome().equals("nop");
+		//Branch not followed on WB
+		boolean bnf = ((Instrucao)WBCircuit.getFromInputBus("instrucao")).isBranch() &&
+					  (Integer) this.WBCircuit.getControl().get("PCSrc")==0;
+		finished = finished && (bnf||nowb);
+					//Nothing running on MEM
+		finished = finished && ((Instrucao)MEMCircuit.getFromInputBus("instrucao")).getNome().equals("nop");
+		//Nothing running on EX
+		finished = finished && ((Instrucao)EXCircuit.getFromInputBus("instrucao")).getNome().equals("nop");
+		//Nothing running on ID
+		finished = finished && ((Instrucao)IDCircuit.getFromInputBus("instrucao")).getNome().equals("nop");
+		return finished;
 	}
 	public void setControl(Controle control) {
 		this.control = control;
