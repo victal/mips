@@ -35,16 +35,17 @@ public class MIPS {
 	public void runStep(){
 		
 		this.WBCircuit.run();
-		Integer pcsrc = (Integer) this.WBCircuit.getControl().get("PCSrc");
+		
+		this.MEMCircuit.run();
+		Integer pcsrc = (Integer) this.MEMCircuit.getControl().get("PCSrc");
 		if(pcsrc!=null){
 			System.err.println("pcsrc="+pcsrc);
 			if(pcsrc == 1){
-				Integer newpc = (Integer) this.WBCircuit.getFromOutputBus("newpc");
+				Integer newpc = (Integer) this.MEMCircuit.getFromOutputBus("newpc");
 				this.IFCircuit.setNewPC(newpc);
 			}
 			this.IFCircuit.liftJumpblock();
 		}
-		this.MEMCircuit.run();
 		this.latchMEMWB.sendWritePulse();
 		this.EXCircuit.run();
 		this.latchEXMEM.sendWritePulse();
@@ -56,14 +57,18 @@ public class MIPS {
 				this.latchIFID.sendWritePulse();
 			}
 		}
-//		System.err.println(IFCircuit.getPC()+" "+
-//	//					  IFCircuit.getCurrentInstruction().getNome()+" "+ //por algum motivo essa linha altera o resultado
-//						 ((Instrucao)IDCircuit.getFromInputBus("instrucao")).getNome()+" "+
-//						 ((Instrucao)EXCircuit.getFromInputBus("instrucao")).getNome()+" "+
-//						 ((Instrucao)MEMCircuit.getFromInputBus("instrucao")).getNome()+" "+
-//						 ((Instrucao)WBCircuit.getFromInputBus("instrucao")).getNome());
+		System.err.println(IFCircuit.getPC()+" "+
+	//					  IFCircuit.getCurrentInstruction().getNome()+" "+ //por algum motivo essa linha altera o resultado
+						 ((Instrucao)IDCircuit.getFromInputBus("instrucao")).getNome()+" "+
+						 ((Instrucao)EXCircuit.getFromInputBus("instrucao")).getNome()+" "+
+						 ((Instrucao)MEMCircuit.getFromInputBus("instrucao")).getNome()+" "+
+						 ((Instrucao)WBCircuit.getFromInputBus("instrucao")).getNome());
 		this.numcycles++;		
 	}		
+	public void run(){
+		while(!isFinished()&&!isStopped())
+			runStep();
+	}
 	
 	public Integer getCycles(){
 		return numcycles;

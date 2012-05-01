@@ -146,7 +146,7 @@ public class EXCircuit extends Circuit {
 			return null;//depende do tipo de branch
 		Instrucao i = (Instrucao) this.getFromInputBus("instrucao");
 		if(i!=null && i.getNome().equals("ble"))
-			return (Integer) this.getFromInputBus("imm")+4;
+			return (Integer) this.getFromInputBus("imm");
 		return (Integer) this.getFromInputBus("pc") + 4 * (Integer) this.getFromInputBus("imm");
 		
 	}

@@ -30,13 +30,16 @@ public class MemoriaDados {
 				if(xy.length!=2) return mem;
 				Integer x=Integer.parseInt(xy[0]);
 				Integer y=Integer.parseInt(xy[1]);
-				mem.add(x0,x);
-				mem.add(y0,y);
+				mem.set(x0,x);
+				mem.set(y0,y);
 				x0++;
 				y0++;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		for(Integer i:mem){
+			if(i!=0)System.err.println(mem.indexOf(i)+" "+i);
 		}
 		return mem;
 	}
@@ -54,13 +57,14 @@ public class MemoriaDados {
 	public void setValue(Integer position, Integer value) {
 		if (position < 0 || position >= MAX_POSITION||position%4!=0)
 			throw new InvalidMemoryAddressException();
-		this.data.add(position/4, value);
+		this.data.set(position/4, value);
 		
 	}
 
 	public Integer getValue(Integer position) {
 		if (position < 0 || position >= MAX_POSITION||position%4!=0)
 			throw new InvalidMemoryAddressException();
+		System.err.println(position/4+" "+data.get(position/4));
 		return this.data.get(position/4);
 	}
 

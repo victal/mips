@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
@@ -16,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+
+import circuitos.MEMCircuit;
 
 import mips.MIPS;
 import registradores.Reg;
@@ -49,7 +52,6 @@ public class MIPSGui extends JFrame {
 		runner.execute();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1024, 768);
-		setLayout(new GridLayout(1, 2));
 		this.mips=mips;
 		for(int i=0;i<32;i++){
 			regslabels[i] = new JLabel("R"+i);
@@ -71,12 +73,23 @@ public class MIPSGui extends JFrame {
 		prod.setEditable(false);
 		instcomp.setEditable(false);
 		clkfield.setEditable(false);
-		play.setIcon(new ImageIcon(MIPSGui.class.getResource("/small/Play16.gif")));
-		nextClock.setIcon(new ImageIcon(MIPSGui.class.getResource("/small/StepForward16.gif")));
-		pause.setIcon(new ImageIcon(MIPSGui.class.getResource("/small/Pause16.gif")));
+		play.setIcon(new ImageIcon("resources/img/small/Play16.gif"));
+		nextClock.setIcon(new ImageIcon("resources/img/small/StepForward16.gif"));
+		pause.setIcon(new ImageIcon("resources/img/small/Pause16.gif"));
 		addActionListeners();
 		JPanel rightSide = rightSideLayout();
 		JPanel instpanel = instLayout();
+		GroupLayout mainLayout = new GroupLayout(this.getContentPane());
+		mainLayout.setAutoCreateContainerGaps(true);
+		mainLayout.setAutoCreateGaps(true);
+		mainLayout.setHorizontalGroup(mainLayout.createSequentialGroup()
+				.addComponent(instpanel)
+				.addComponent(rightSide));
+		mainLayout.setVerticalGroup(mainLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addComponent(instpanel)
+				.addComponent(rightSide));
+		setLayout(mainLayout);
+		add(instpanel);
 		add(rightSide);
 		setVisible(true);
 	}
@@ -169,12 +182,22 @@ public class MIPSGui extends JFrame {
 		});
 		this.play.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(mips==null){
+					mips=Main.createMIPS();
+					updateInfos();
+					runner.setMips(mips);
+				}
 				runMIPS();
 			}
 		});
 		this.nextClock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!mips.isFinished())
+				if(mips==null){
+					mips=Main.createMIPS();
+					updateInfos();
+					runner.setMips(mips);
+				}
+				if(!runner.isRunning())
 					runMIPSStep();
 			}
 		});
@@ -197,7 +220,7 @@ public class MIPSGui extends JFrame {
 			mips.resume();
 	}
 	protected void pauseMIPS() {
-		mips.stop();
+		if(mips!=null)mips.stop();
 	}
 
 	public void updateInfos() {
@@ -213,6 +236,14 @@ public class MIPSGui extends JFrame {
 		this.instcomp.setText(done.toString());
 		Float ratio = new Float(done)/new Float(numcycles);
 		this.prod.setText(ratio.toString());
+		List<Integer> mems = mips.getMEMCircuit().getLastPositions();
+		List<Integer> values = mips.getMEMCircuit().getLastValues();
+		for(int i = 0;i<mems.size();i++){
+			memory[4-i].setText("add: "+mems.get(i)+" value: "+values.get(i));
+		}
+	}
+	public void setMips(MIPS mips){
+		this.mips = mips;
 	}
 
 

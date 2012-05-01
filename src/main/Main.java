@@ -21,32 +21,9 @@ public class Main {
 
 
 	public static void main(String[] args) {
-		JFileChooser fc = new JFileChooser();
-		fc.setFileFilter(new FileFilter() {
-			
-			@Override
-			public String getDescription() {
-				return "Mips binary files";
-			}
-			
-			@Override
-			public boolean accept(File arg0) {
-				return arg0.getName().matches(".*[.]mips");
-			}
-		});
-		int retval = fc.showOpenDialog(null);
-		File f = new File("/home/guilherme/teste.mips");
-		if(retval==JFileChooser.APPROVE_OPTION){
-			f = fc.getSelectedFile();
-		}
-		List<String> instrucoes = lerInstrucoes(f);
-		MemoriaInstrucao memInstruction = MemBuilder.buildMemInstruction(instrucoes);
-		File datamem = new File("resources/datamem.dat");
-		MemoriaDados memData = new MemoriaDados(datamem);
-		final MIPS mips = MIPSBuilder.build(memInstruction, memData);
+		MIPS mips = createMIPS();
 		new MIPSGui(mips);
-		//mips.run();
-		
+//		mips.run();
 	}
 
 	
@@ -67,7 +44,33 @@ public class Main {
 		
 
 	}
-
+	public static MIPS createMIPS(){
+		JFileChooser fc = new JFileChooser();
+		fc.setFileFilter(new FileFilter() {
+			
+			@Override
+			public String getDescription() {
+				return "Mips binary files";
+			}
+			
+			@Override
+			public boolean accept(File arg0) {
+				return arg0.getName().matches(".*[.]mips");
+			}
+		});
+		int retval = fc.showOpenDialog(null);
+		File f = new File("resources/teste.mips");
+		if(retval==JFileChooser.APPROVE_OPTION){
+			f = fc.getSelectedFile();
+		}
+		else return null;
+		List<String> instrucoes = lerInstrucoes(f);
+		MemoriaInstrucao memInstruction = MemBuilder.buildMemInstruction(instrucoes);
+		File datamem = new File("resources/datamem.dat");
+		MemoriaDados memData = new MemoriaDados(datamem);
+		MIPS mips = MIPSBuilder.build(memInstruction, memData);
+		return mips;
+	}
 	
 	
 }

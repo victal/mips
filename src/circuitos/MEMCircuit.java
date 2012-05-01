@@ -2,6 +2,8 @@ package circuitos;
 
 import instrucoes.Instrucao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import memorias.MemoriaDados;
@@ -11,6 +13,9 @@ public class MEMCircuit extends Circuit{
 
 	private MemoriaDados mem;
 	private List<Reg> mipsRegs;
+	private List<Integer> lastmems = new ArrayList<Integer>();
+	private List<Integer> lastvalues = new ArrayList<Integer>();
+	
 
 	@Override
 	public void run() {
@@ -18,6 +23,12 @@ public class MEMCircuit extends Circuit{
 			Integer position = (Integer) this.getFromInputBus("address");
 			Integer value = this.mem.getValue(position);
 			this.putInOutputBus("memdata", value);
+			this.lastmems.add(position);
+			this.lastvalues.add(value);
+			if(lastmems.size()>5){
+				lastmems.remove(0);
+				lastvalues.remove(0);
+			}
 			if(this.getBypass()){
 				Instrucao i = (Instrucao)this.getFromInputBus("instrucao");
 				Integer re = i.getRegistradorEscrito();
@@ -30,6 +41,12 @@ public class MEMCircuit extends Circuit{
 		if( (isMemoryWrite())) {
 			Integer position = (Integer) this.getFromInputBus("address");
 			Integer value = (Integer) this.getFromInputBus("writedata");
+			this.lastmems.add(position);
+			this.lastvalues.add(value);
+			if(lastmems.size()>5){
+				lastmems.remove(0);
+				lastvalues.remove(0);
+			}
 			this.mem.setValue(position, value);
 		}
 		this.putInOutputBus("instrucao", this.getFromInputBus("instrucao"));
@@ -68,6 +85,12 @@ public class MEMCircuit extends Circuit{
 
 	public void setRegs(List<Reg> regs) {
 		this.mipsRegs=regs;
+	}
+	public List<Integer> getLastValues(){
+		return lastvalues;
+	}
+	public List<Integer> getLastPositions(){
+		return lastmems;
 	}
 
 }
