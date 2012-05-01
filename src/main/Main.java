@@ -47,13 +47,9 @@ public class Main {
 	public static MIPS createMIPS(){
 		JFileChooser fc = new JFileChooser();
 		fc.setFileFilter(new FileFilter() {
-			
-			@Override
 			public String getDescription() {
 				return "Mips binary files";
 			}
-			
-			@Override
 			public boolean accept(File arg0) {
 				return arg0.getName().matches(".*[.]mips");
 			}
@@ -63,7 +59,7 @@ public class Main {
 		if(retval==JFileChooser.APPROVE_OPTION){
 			f = fc.getSelectedFile();
 		}
-		else return null;
+		else {System.err.println(fc.getSelectedFile().getName());return null;}
 		List<String> instrucoes = lerInstrucoes(f);
 		MemoriaInstrucao memInstruction = MemBuilder.buildMemInstruction(instrucoes);
 		File datamem = new File("resources/datamem.dat");

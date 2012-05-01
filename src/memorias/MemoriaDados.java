@@ -38,9 +38,6 @@ public class MemoriaDados {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		for(Integer i:mem){
-			if(i!=0)System.err.println(mem.indexOf(i)+" "+i);
-		}
 		return mem;
 	}
 	private List<Integer> buildEmptyDataMem() {
@@ -64,7 +61,6 @@ public class MemoriaDados {
 	public Integer getValue(Integer position) {
 		if (position < 0 || position >= MAX_POSITION||position%4!=0)
 			throw new InvalidMemoryAddressException();
-		System.err.println(position/4+" "+data.get(position/4));
 		return this.data.get(position/4);
 	}
 
