@@ -11,6 +11,7 @@ import registradores.Reg;
 public class WBCircuit extends Circuit{
 
 	private List<Reg> regs;
+	private int completedInstructions = 0;
 
 	@Override
 	public void run() {
@@ -26,10 +27,15 @@ public class WBCircuit extends Circuit{
 		if(i != null && (i.isBranch()||i.isJump())){
 			this.putInOutputBus("newpc", this.getFromInputBus("newpc"));
 		}
-		
+		if(i.getNome()!="nop")
+			completedInstructions++;
 
 	}
 
+	public Integer countCompleteInstructions(){
+		return completedInstructions;
+	}
+	
 	public Integer getData() {
 		if (!this.getControl().get("MemToReg").equals(0)) {
 			return (Integer) this.getFromInputBus("memdata");

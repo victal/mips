@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFileChooser;
+
 import memorias.MemBuilder;
 import memorias.MemoriaDados;
 import memorias.MemoriaInstrucao;
@@ -17,19 +19,24 @@ public class Main {
 
 
 	public static void main(String[] args) {
-		File f = new File("/home/guilherme/test.mips");
-		List<String> instrucoes = lerInstrucoes(f); 
+		JFileChooser fc = new JFileChooser();
+		int retval = fc.showOpenDialog(null);
+		File f = new File("/home/guilherme/teste.mips");
+		if(retval==JFileChooser.APPROVE_OPTION){
+			f = fc.getSelectedFile();
+		}
+		List<String> instrucoes = lerInstrucoes(f);
 		MemoriaInstrucao memInstruction = MemBuilder.buildMemInstruction(instrucoes);
 		MemoriaDados memData = new MemoriaDados();
 		MIPS mips = MIPSBuilder.build(memInstruction, memData);
-		mips.setBypass(true);
-		mips.run();
+		new MIPSGui(mips);
+		//mips.run();
 		
 	}
 
 	
 	
-	private static List<String> lerInstrucoes(File f) {
+	public static List<String> lerInstrucoes(File f) {
 		List<String> res = new ArrayList<String>();
 		try {
 			BufferedReader buffer = new  BufferedReader(new FileReader(f));

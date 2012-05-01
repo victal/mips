@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import main.Utils;
+import main.Main;
 import memorias.MemBuilder;
 import memorias.MemoriaDados;
 import memorias.MemoriaInstrucao;
@@ -26,11 +26,12 @@ import net.miginfocom.swing.MigLayout;
 public class GuiMIPS {
 
 	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField[] registers = new JTextField[32]; 
+	private JTextField textField0;
+	private JTextField textField8;
 	private JTextField textField_2;
 	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField textField16;
 	private JTextField textField_5;
 	private JTextField textField_6;
 	private JTextField textField_7;
@@ -64,27 +65,27 @@ public class GuiMIPS {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					JFileChooser fc = new JFileChooser();
-					int retVal = fc.showOpenDialog(null);
-					if(retVal==JFileChooser.APPROVE_OPTION){
-						File f = fc.getSelectedFile();
-						List<String> instrucoes = Utils.lerInstrucoes(f); 
-						MemoriaInstrucao memInstruction = MemBuilder.buildMemInstruction(instrucoes);
-						MemoriaDados memData = new MemoriaDados();
-						MIPS mips = MIPSBuilder.build(memInstruction, memData);
-						GuiMIPS window = new GuiMIPS(mips);
-						window.frame.setVisible(true);
-					}					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					JFileChooser fc = new JFileChooser();
+//					int retVal = fc.showOpenDialog(null);
+//					if(retVal==JFileChooser.APPROVE_OPTION){
+//						File f = fc.getSelectedFile();
+//						List<String> instrucoes = Main.lerInstrucoes(f); 
+//						MemoriaInstrucao memInstruction = MemBuilder.buildMemInstruction(instrucoes);
+//						MemoriaDados memData = new MemoriaDados();
+//						MIPS mips = MIPSBuilder.build(memInstruction, memData);
+//						GuiMIPS window = new GuiMIPS(mips);
+//						window.frame.setVisible(true);
+//					}					
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
@@ -138,26 +139,26 @@ public class GuiMIPS {
 		JLabel lblR = new JLabel("R0");
 		panel_1.add(lblR, "cell 0 0,alignx trailing");
 		
-		textField = new JTextField();
-		textField.setText("5");
-		panel_1.add(textField, "cell 1 0,growx");
-		textField.setColumns(10);
+		textField0 = new JTextField();
+		textField0.setText("5");
+		panel_1.add(textField0, "cell 1 0,growx");
+		textField0.setColumns(10);
 		
 		JLabel lblR_8 = new JLabel("R8");
 		panel_1.add(lblR_8, "cell 2 0,alignx trailing");
 		
-		textField_1 = new JTextField();
-		textField_1.setText("-9475");
-		panel_1.add(textField_1, "cell 3 0,growx");
-		textField_1.setColumns(10);
+		textField8 = new JTextField();
+		textField8.setText("-9475");
+		panel_1.add(textField8, "cell 3 0,growx");
+		textField8.setColumns(10);
 		
 		JLabel lblR_16 = new JLabel("R16");
 		panel_1.add(lblR_16, "cell 4 0,alignx trailing");
 		
-		textField_4 = new JTextField();
-		textField_4.setText("-8237");
-		panel_1.add(textField_4, "cell 5 0,growx");
-		textField_4.setColumns(10);
+		textField16 = new JTextField();
+		textField16.setText("-8237");
+		panel_1.add(textField16, "cell 5 0,growx");
+		textField16.setColumns(10);
 		
 		JLabel lblR_24 = new JLabel("R24");
 		panel_1.add(lblR_24, "flowx,cell 6 0");
