@@ -272,7 +272,6 @@ public class MIPSGui extends JFrame {
 		for(int i = 0;i<mems.size();i++){
 			memory[4-i].setText("address: "+mems.get(i)+" value: "+values.get(i));
 		}
-		
 	}
 	public void setMips(MIPS mips){
 		this.mips = mips;
