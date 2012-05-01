@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
 
 import memorias.MemBuilder;
@@ -42,8 +43,14 @@ public class Main {
 		MemoriaInstrucao memInstruction = MemBuilder.buildMemInstruction(instrucoes);
 		File datamem = new File("resources/datamem.dat");
 		MemoriaDados memData = new MemoriaDados(datamem);
-		MIPS mips = MIPSBuilder.build(memInstruction, memData);
-		new MIPSGui(mips);
+		final MIPS mips = MIPSBuilder.build(memInstruction, memData);
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				new MIPSGui(mips);
+			}
+		});
 		//mips.run();
 		
 	}

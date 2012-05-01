@@ -25,6 +25,8 @@ public class MIPSGui extends JFrame {
 	private JButton nextClock = new JButton();
 	private JLabel memories = new JLabel("Last Used Memories");
 	private JTextField[] memory = new JTextField[5];
+	private JLabel clock = new JLabel("Clock");
+	private JTextField clkfield = new JTextField("0");
 	private JLabel pclabel = new JLabel("PC");
 	private JTextField pc = new JTextField("0"); 
 	private JLabel instcomplabel = new JLabel("Instruções completadas");
@@ -62,12 +64,25 @@ public class MIPSGui extends JFrame {
 		pc.setEditable(false);
 		prod.setEditable(false);
 		instcomp.setEditable(false);
+		clkfield.setEditable(false);
 		play.setIcon(new ImageIcon(MIPSGui.class.getResource("/small/Play16.gif")));
 		nextClock.setIcon(new ImageIcon(MIPSGui.class.getResource("/small/StepForward16.gif")));
 		addActionListeners();
 		JPanel rightSide = rightSideLayout();
+		JPanel instpanel = instLayout();
 		add(rightSide);
 		setVisible(true);
+	}
+
+	private JPanel instLayout() {
+		JPanel panel = new JPanel(new GridLayout(2,5));
+		for(int i = 0;i<5;i++){
+			panel.add(phaseslabels[i]);
+		}
+		for(int i = 0;i<5;i++){
+			panel.add(instructions[i]);
+		}
+		return panel;
 	}
 
 	private JPanel rightSideLayout() {
@@ -84,7 +99,9 @@ public class MIPSGui extends JFrame {
 	}
 
 	private JPanel infoLayout() {
-		JPanel panel = new JPanel(new GridLayout(3,2));
+		JPanel panel = new JPanel(new GridLayout(4,2));
+		panel.add(clock);
+		panel.add(clkfield);
 		panel.add(pclabel);
 		panel.add(pc);
 		panel.add(instcomplabel);
@@ -170,7 +187,8 @@ public class MIPSGui extends JFrame {
 		}
 		Integer pc = mips.getIFCircuit().getPC()/4;
 		this.pc.setText(pc.toString());
-		int numcycles = mips.getCycles();
+		Integer numcycles = mips.getCycles();
+		clkfield.setText(numcycles.toString());
 		Integer done = mips.getWBCircuit().countCompleteInstructions();
 		this.instcomp.setText(done.toString());
 		Float ratio = new Float(done)/new Float(numcycles);
