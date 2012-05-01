@@ -4,8 +4,6 @@ import instrucoes.Instrucao;
 
 import java.util.List;
 
-import mips.Controle;
-
 import registradores.Reg;
 
 public class WBCircuit extends Circuit{

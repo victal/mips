@@ -1,21 +1,18 @@
 package mips;
 
-import instrucoes.IInstrucao;
 import instrucoes.Instrucao;
 
 import java.util.List;
 
-import circuitos.Circuit;
+import latches.Latch;
+import memorias.MemoriaDados;
+import memorias.MemoriaInstrucao;
+import registradores.Reg;
 import circuitos.EXCircuit;
 import circuitos.IDCircuit;
 import circuitos.IFCircuit;
 import circuitos.MEMCircuit;
 import circuitos.WBCircuit;
-
-import registradores.Reg;
-import latches.Latch;
-import memorias.MemoriaDados;
-import memorias.MemoriaInstrucao;
 
 public class MIPS {
 
@@ -59,20 +56,20 @@ public class MIPS {
 				this.latchIFID.sendWritePulse();
 			}
 		}
+		System.err.println(IFCircuit.getPC()+" "+
+	//					  IFCircuit.getCurrentInstruction().getNome()+" "+ //por algum motivo essa linha altera o resultado
+						 ((Instrucao)IDCircuit.getFromInputBus("instrucao")).getNome()+" "+
+						 ((Instrucao)EXCircuit.getFromInputBus("instrucao")).getNome()+" "+
+						 ((Instrucao)MEMCircuit.getFromInputBus("instrucao")).getNome()+" "+
+						 ((Instrucao)WBCircuit.getFromInputBus("instrucao")).getNome());
+				
 	}		
 	
 	public void run(){
-		boolean finished = false;
-		while(isFinished()||isStopped()){
+		while(!isFinished()&&!isStopped()){
 			this.runStep();
-			System.err.println(IFCircuit.getPC()+" "+
-			//					  IFCircuit.getCurrentInstruction().getNome()+" "+ //por algum motivo essa linha altera o resultado
-								 ((Instrucao)IDCircuit.getFromInputBus("instrucao")).getNome()+" "+
-								 ((Instrucao)EXCircuit.getFromInputBus("instrucao")).getNome()+" "+
-								 ((Instrucao)MEMCircuit.getFromInputBus("instrucao")).getNome()+" "+
-								 ((Instrucao)WBCircuit.getFromInputBus("instrucao")).getNome());
-			//Run out of instructions;
-			}
+		}
+			
 	}
 	public boolean isStopped() {
 		return paused;
@@ -193,7 +190,6 @@ public class MIPS {
 	public List<Reg> getRegs() {
 		return regs;
 	}
-	
 
 }
 

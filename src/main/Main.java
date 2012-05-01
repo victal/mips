@@ -10,8 +10,6 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
-
 import memorias.MemBuilder;
 import memorias.MemoriaDados;
 import memorias.MemoriaInstrucao;
@@ -44,8 +42,8 @@ public class Main {
 		MemoriaInstrucao memInstruction = MemBuilder.buildMemInstruction(instrucoes);
 		MemoriaDados memData = new MemoriaDados();
 		MIPS mips = MIPSBuilder.build(memInstruction, memData);
-		new MIPSGui(mips);
-
+		//new MIPSGui(mips);
+		mips.run();
 		
 	}
 
