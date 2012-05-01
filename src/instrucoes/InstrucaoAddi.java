@@ -30,7 +30,10 @@ public class InstrucaoAddi extends InstrucaoSuperFormatI  implements IInstrucao 
 
 
 	public String getInstrucaoMIPS() {
-		String i = getNome().toUpperCase()+" R"+Integer.valueOf(getRt(),2)+",R"+Integer.valueOf(getRs(),2)+","+getDadoImediato();
+		String i;
+		if(Integer.valueOf(getRs())!=0)
+			i = getNome().toUpperCase()+" R"+Integer.valueOf(getRt(),2)+",R"+Integer.valueOf(getRs(),2)+","+getDadoImediato();
+		else i = "LI R"+Integer.valueOf(getRt(),2)+","+getDadoImediato();
 		return i;
 	}
 
