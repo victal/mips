@@ -243,9 +243,9 @@ public class MIPSGui extends JFrame {
 		this.open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!mips.isFinished()){
-					main.Main.createMIPS();
-					setMips(mips);
-					runner.resetMips(mips);
+					MIPS nmips = main.Main.createMIPS();
+					setMips(nmips);
+					runner.resetMips(nmips);
 				}
 				
 			}
