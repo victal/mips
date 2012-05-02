@@ -51,7 +51,7 @@ public class Main {
 				return "Mips binary files";
 			}
 			public boolean accept(File arg0) {
-				return arg0.getName().matches(".*[.]mips");
+				return arg0.getName().matches(".*[.]mips")||arg0.isDirectory();
 			}
 		});
 		int retval = fc.showOpenDialog(null);

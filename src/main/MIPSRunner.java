@@ -20,7 +20,8 @@ public class MIPSRunner extends SwingWorker<Object, Void> {
 	}
 	
 	public void runMIPSStep(){
-		mips.runStep();
+		gui.updateInfos();
+		mips.runStep();	
 	}
 	
 	public void runMIPS(){

@@ -89,6 +89,7 @@ def factory_itype(type_string):
     factory_args = {
         'addi': {'prefix': '001000', 'reverse_regs': True},
         'ble': {'prefix': '000111'},
+        'beq': {'prefix': '000101'},
         'lw': {'prefix': '100011', 'reverse_regs': True},
         'sw': {'prefix': "101011", 'reverse_regs': True},
     }
@@ -125,6 +126,9 @@ def ble(instr_args):
     i_type = factory_itype('ble')
     return i_type.convert(instr_args)
 
+def beq(instr_args):
+    i_type = factory_itype('beq')
+    return i_type.convert(instr_args)
 
 def lw(instr_args):
     i_type = factory_itype('lw')

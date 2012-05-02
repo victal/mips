@@ -38,6 +38,7 @@ def _fetch_handler(instr_t):
         'add': handlers.add,
         'mul': handlers.mul,
 
+        'beq': handlers.beq,
         'addi': handlers.addi,
         'li': handlers.li,
         'ble': handlers.ble,
