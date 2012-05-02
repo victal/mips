@@ -21,7 +21,8 @@ public class Main {
 
 
 	public static void main(String[] args) {
-		MIPS mips = createMIPS();
+		File f = new File("resources/teste.mips");
+		MIPS mips = buildMIPS(f);
 		new MIPSGui(mips);
 //		mips.run();
 	}
@@ -44,6 +45,14 @@ public class Main {
 		
 
 	}
+	private static MIPS buildMIPS(File f){
+		List<String> instrucoes = lerInstrucoes(f);
+		MemoriaInstrucao memInstruction = MemBuilder.buildMemInstruction(instrucoes);
+		File datamem = new File("resources/datamem.dat");
+		MemoriaDados memData = new MemoriaDados(datamem);
+		MIPS mips = MIPSBuilder.build(memInstruction, memData);
+		return mips;
+	}
 	public static MIPS createMIPS(){
 		JFileChooser fc = new JFileChooser();
 		fc.setFileFilter(new FileFilter() {
@@ -60,12 +69,8 @@ public class Main {
 			f = fc.getSelectedFile();
 		}
 		else  f = new File("resources/teste.mips");
-		List<String> instrucoes = lerInstrucoes(f);
-		MemoriaInstrucao memInstruction = MemBuilder.buildMemInstruction(instrucoes);
-		File datamem = new File("resources/datamem.dat");
-		MemoriaDados memData = new MemoriaDados(datamem);
-		MIPS mips = MIPSBuilder.build(memInstruction, memData);
-		return mips;
+		
+		return buildMIPS(f);
 	}
 	
 	
