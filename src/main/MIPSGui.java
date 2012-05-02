@@ -31,6 +31,7 @@ public class MIPSGui extends JFrame {
 	private JButton play = new JButton();
 	private JButton nextClock = new JButton();
 	private JButton pause = new JButton();
+	private JButton open = new JButton("Open File");
 	private JLabel memories = new JLabel("Last Used Memories");
 	private JTextField[] memory = new JTextField[5];
 	private JLabel clock = new JLabel("Clock");
@@ -188,13 +189,15 @@ public class MIPSGui extends JFrame {
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(play)
 						.addComponent(nextClock)
-						.addComponent(pause))
+						.addComponent(pause)
+						.addComponent(open))
 				.addComponent(bypass));
 		layout.setVerticalGroup(layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 						.addComponent(play)
 						.addComponent(nextClock)
-						.addComponent(pause))
+						.addComponent(pause)
+						.addComponent(open))
 				.addComponent(bypass));
 		Dimension d = new Dimension(220,panel.getHeight());
 		panel.setSize(d);
@@ -235,6 +238,14 @@ public class MIPSGui extends JFrame {
 		this.pause.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				pauseMIPS();
+			}
+		});
+		this.open.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				main.Main.createMIPS();
+				setMips(mips);
+				runner.resetMips(mips);
+				
 			}
 		});
 	}

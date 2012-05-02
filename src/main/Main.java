@@ -55,11 +55,11 @@ public class Main {
 			}
 		});
 		int retval = fc.showOpenDialog(null);
-		File f = new File("resources/teste.mips");
+		File f;
 		if(retval==JFileChooser.APPROVE_OPTION){
 			f = fc.getSelectedFile();
 		}
-		else {System.err.println(fc.getSelectedFile().getName());return null;}
+		else  f = new File("resources/teste.mips");
 		List<String> instrucoes = lerInstrucoes(f);
 		MemoriaInstrucao memInstruction = MemBuilder.buildMemInstruction(instrucoes);
 		File datamem = new File("resources/datamem.dat");
