@@ -242,9 +242,11 @@ public class MIPSGui extends JFrame {
 		});
 		this.open.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				main.Main.createMIPS();
-				setMips(mips);
-				runner.resetMips(mips);
+				if(!mips.isFinished()){
+					main.Main.createMIPS();
+					setMips(mips);
+					runner.resetMips(mips);
+				}
 				
 			}
 		});
