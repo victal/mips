@@ -120,5 +120,106 @@ class CompileInstructionBatchTest(unittest.TestCase):
 
         assert_equal(self.instrs_compiled, compiled)
 
+
+class CompileInstructionBatchTestWithLoopLabels(unittest.TestCase):
+
+    def setUp(self):
+        self.instrs_compiled = ['00100000000010100000000001100100',
+                                '10101100000000000000000000011000',
+                                '10101100000000000000000000011100',
+                                '10001100000001100000000000011100',
+                                '00000000110001100011100000011000',
+                                '10001100000000010000000000011000',
+                                '00000000001001110100100000100000',
+                                '10101100000010010000000000011000',
+                                '00100000110001100000000000000001',
+                                '10101100000001100000000000011100',
+                                '00011100110010100000000000001100']
+
+    def test_loop_label_converter(self):
+        self.instrs = ['addi R10,R0,100',
+                       'sw R0,24(R0)',
+                       'sw R0,28(R0)',
+                       'LOOP: lw R6,28(R0)',
+                       'mul R7,R6,R6',
+                       'lw R1,24(R0)',
+                       'add R9,R1,R7',
+                       'sw R9,24(R0)',
+                       'addi R6,R6,1',
+                       'sw R6,28(R0)',
+                       'ble R6,R10,LOOP']
+        self.instrs_no_label = ['addi R10,R0,100',
+                                'sw R0,24(R0)',
+                                'sw R0,28(R0)',
+                                'lw R6,28(R0)',
+                                'mul R7,R6,R6',
+                                'lw R1,24(R0)',
+                                'add R9,R1,R7',
+                                'sw R9,24(R0)',
+                                'addi R6,R6,1',
+                                'sw R6,28(R0)',
+                                'ble R6,R10,12']
+        comp._convert_loop_labels(self.instrs)
+        assert_equal(self.instrs_no_label, self.instrs)
+
+    def test_compile_list_instructions_label_inline(self):
+        self.instrs = ['addi R10,R0,100',
+                       'sw R0,24(R0)',
+                       'sw R0,28(R0)',
+                       'LOOP: lw R6,28(R0)',
+                       'mul R7,R6,R6',
+                       'lw R1,24(R0)',
+                       'add R9,R1,R7',
+                       'sw R9,24(R0)',
+                       'addi R6,R6,1',
+                       'sw R6,28(R0)',
+                       'ble R6,R10,LOOP']
+        assert_equal(self.instrs_compiled, comp.compile_list(self.instrs))
+
+    def test_compile_list_instructions_label_newline(self):
+        self.instrs = ['addi R10,R0,100',
+                       'sw R0,24(R0)',
+                       'sw R0,28(R0)',
+                       'LOOP:',
+                       'lw R6,28(R0)',
+                       'mul R7,R6,R6',
+                       'lw R1,24(R0)',
+                       'add R9,R1,R7',
+                       'sw R9,24(R0)',
+                       'addi R6,R6,1',
+                       'sw R6,28(R0)',
+                       'ble R6,R10,LOOP']
+        assert_equal(self.instrs_compiled, comp.compile_list(self.instrs))
+
+    def test_compile_list_instructions_multiple_labels(self):
+        self.instrs = ['addi R10,R0,100',
+                       'sw R0,24(R0)',
+                       'sw R0,28(R0)',
+                       'LOOP:',
+                       'lw R6,28(R0)',
+                       'mul R7,R6,R6',
+                       'lw R1,24(R0)',
+                       'LOOP2: add R9,R1,R7',
+                       'sw R9,24(R0)',
+                       'LOOP4:',
+                       'addi R6,R6,1',
+                       'sw R6,28(R0)',
+                       'ble R6,R10,LOOP',
+                       'ble R6,R10,LOOP2']
+        self.instrs_compiled = ['00100000000010100000000001100100',
+                                '10101100000000000000000000011000',
+                                '10101100000000000000000000011100',
+                                '10001100000001100000000000011100',
+                                '00000000110001100011100000011000',
+                                '10001100000000010000000000011000',
+                                '00000000001001110100100000100000',
+                                '10101100000010010000000000011000',
+                                '00100000110001100000000000000001',
+                                '10101100000001100000000000011100',
+                                '00011100110010100000000000001100',
+                                '00011100110010100000000000011000']
+        assert_equal(self.instrs_compiled, comp.compile_list(self.instrs))
+
+
 if __name__ == '__main__':
     unittest.main()

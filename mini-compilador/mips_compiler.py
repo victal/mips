@@ -49,6 +49,54 @@ def _fetch_handler(instr_t):
     return INSTRUCTION_HANDLER.get(instr_t, None)
 
 
+def _convert_loop_labels(instr_list):
+    """
+    Receives a instruction list with Loop Labels
+    and convert them to proper numeric representation.
+
+    The numeric representation should be
+    (the line of the instruction immediately following the loop - 1) * 4
+    (we are considering 32 bits instructions)
+
+    After conversion, remove any textual representation of label on the list
+
+    """
+    labels = {}
+
+    address = 0
+    lines_to_remove = []
+
+
+    for line, instr in enumerate(instr_list):
+        try:
+            label, remainder = [x.strip() for x in instr.split(':')]
+        except ValueError:
+            address += 4  # increase address because is a line w/ actual instr
+            continue
+
+        inline_loop_label = bool(remainder)
+
+        if inline_loop_label:
+            labels[label] = str(address)
+            instr_list[line] = remainder  # remove textual label information
+            address += 4  # increase address because is a line w/ actual instr
+        else:  # it is a newline  loop label
+            labels[label] = str(address)
+            lines_to_remove.append(instr)  # mark to remove this line
+                                           # no useful instr information on it
+
+    for line in lines_to_remove:
+        instr_list.remove(line)
+
+    for line, instr in enumerate(instr_list):
+        try:
+            label = max([x for x in labels.keys() if x in instr])
+        except:
+            continue
+        instr_list[line] = instr.replace(label, labels[label]).strip()
+
+
+
 def compile_instruction(instr):
     """
     Recebe uma instrucao ``instr`` em formato mnemonico
@@ -68,6 +116,7 @@ def compile_list(instr_list):
     and convert them to binary format (32bit)
 
     """
+    _convert_loop_labels(instr_list)
     compiled = [compile_instruction(x) for x in instr_list]
     return compiled
 
